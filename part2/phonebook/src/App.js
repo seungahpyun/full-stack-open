@@ -8,14 +8,15 @@ const Button = ({Click, text}) => (
 )
 
 const DisplayName = ({persons}) => {
-  const nameList = Object.keys(persons)
+  const personList = Object.entries(persons)
+  console.log(personList)
   return (
     <div>
-      {nameList.map((name) => (
+      {personList.map(([key , value]) =>
         <div>
-          {name}
+          {key} {value}
         </div>
-      ))}
+      )}
     </div>
   )
 }
@@ -25,24 +26,32 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
 
-  const addName = (event) => {
+
+  const addPerson = (event) => {
     event.preventDefault()
   }
 
-  const handleNameChange = (event) => {
-    const name = event.target.value
-    setNewName(name)
+
+  const handleNewName = (event) => {
+    setNewName(event.target.value)
   }
+
+
+  const handleNewNumber = (event) => {
+    setNewNumber(event.target.value)
+  }
+
 
   const handleNameClick = () => {
     const updatedName = newName
+    const updatedNumber = newNumber
+
     if (updatedName in persons){
       alert(`${updatedName} is already added to the phonebook`)
     }
     if (!(updatedName in persons)){
-      const updatedPersons = {...persons, [updatedName] : ''}
+      const updatedPersons = {...persons, [updatedName] : updatedNumber}
       setPersons(updatedPersons)
-      console.log(updatedPersons)
     }
   }
 
@@ -50,20 +59,21 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
+      <form onSubmit={addPerson}>
         <div>
-          <input name="name" value={newName} onChange={handleNameChange}/>
+          name:{" "}
+          <input name="name" value={newName} onChange={handleNewName}/>
         </div>
-        {/* <div>
+        <div>
           number:{" "}
-          <input name="number" value={newName.number} onChange={handleNameChange} />
-        </div> */}
+          <input name="number" value={newNumber} onChange={handleNewNumber} />
+        </div>
         <div>
           <Button Click={handleNameClick} text='add'/>
         </div>
-    </form>
+      </form>
       <h2>Numbers</h2>
-        <DisplayName persons={persons}/>
+      <DisplayName persons={persons}/>
       ...
     </div>
   )
