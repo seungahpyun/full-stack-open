@@ -7,14 +7,26 @@ const Button = ({Click, text}) => (
   </button>
 )
 
+const DisplayName = ({persons}) => {
+  const nameList = Object.keys(persons)
+  return (
+    <div>
+      {nameList.map((name) => (
+        <div>
+          {name}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState({})
   const [newName, setNewName] = useState('')
-  const [id, setId] = useState(0)
+  const [newNumber, setNewNumber] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
-    // console.log(event.target.value);
   }
 
   const handleNameChange = (event) => {
@@ -24,12 +36,14 @@ const App = () => {
 
   const handleNameClick = () => {
     const updatedName = newName
-    const updatedId = id + 1
-    setId(updatedId)
-
-    const updatedPersons = {...persons, [updatedId]: updatedName}
-    setPersons(updatedPersons)
-    console.log(updatedPersons)
+    if (updatedName in persons){
+      alert(`${updatedName} is already added to the phonebook`)
+    }
+    if (!(updatedName in persons)){
+      const updatedPersons = {...persons, [updatedName] : ''}
+      setPersons(updatedPersons)
+      console.log(updatedPersons)
+    }
   }
 
 
@@ -49,9 +63,7 @@ const App = () => {
         </div>
     </form>
       <h2>Numbers</h2>
-        <div>
-          {Object.values(persons)}
-        </div>
+        <DisplayName persons={persons}/>
       ...
     </div>
   )
