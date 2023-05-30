@@ -13,3 +13,5 @@ const Persons = ({persons}) => {
     </div>
   )
 }
+
+export default Persons
