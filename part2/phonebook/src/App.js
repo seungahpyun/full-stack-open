@@ -20,32 +20,26 @@ const DisplayName = ({persons}) => {
   )
 }
 
-const Filtered = ({persons, filter}) => {
-  const personList = Object.keys(persons)
-  if (filter in personList) {
-    return (
-      <div>
-        {personList.map(name =>
-          <div key={name}>
-            {name} {persons[name]}
-          </div>
-        )}
-      </div>
-    )
-  }
-  // return (
-  //   <div>
-  //     {filter}
-  //   </div>
-  // )
-}
 
+const Filtered = ({persons, newFilter}) => {
+  const personList = Object.entries(persons).map((person) => {
+    if((person).includes(newFilter))
+      return(
+        <div key={person}>
+          {person.join(' ')}
+        </div>
+      )
+    }
+  )
+  return personList
+}
 
 const App = () => {
   const [persons, setPersons] = useState({})
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [filter, setFilter] = useState('')
+  const [newFilter, setFilter] = useState('')
+
 
 
   const addPerson = (event) => {
@@ -61,7 +55,7 @@ const App = () => {
   }
 
   const handleFilter = (event) => {
-    const search = event.target.value;
+    const search = event.target.value
     setFilter(search)
   }
 
@@ -89,10 +83,10 @@ const App = () => {
       <form onSubmit={addPerson}>
         <div>
           filter shown with {" "}
-          <input name="filtered" value={filter} onChange={handleFilter}/>
+          <input name="filtered" value={newFilter} onChange={handleFilter}/>
         </div>
       </form>
-      <Filtered persons={persons} filter={filter}/>
+      <Filtered persons={persons} newFilter={newFilter}/>
       <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>
