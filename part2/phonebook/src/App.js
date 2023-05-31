@@ -1,38 +1,7 @@
 import { useState } from 'react'
-
-
-const Button = ({Click, text}) => (
-  <button onClick={Click}>
-    {text}
-  </button>
-)
-
-const DisplayName = ({persons}) => {
-  const personList = Object.entries(persons)
-  return (
-    <div>
-      {personList.map(([name , number]) =>
-        <div key={name}>
-          {name} {number}
-        </div>
-      )}
-    </div>
-  )
-}
-
-
-const Filtered = ({persons, newFilter}) => {
-  const personList = Object.entries(persons).map((person) => {
-    if((person).includes(newFilter))
-      return(
-        <div key={person}>
-          {person.join(' ')}
-        </div>
-      )
-    }
-  )
-  return personList
-}
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState({})
@@ -56,13 +25,13 @@ const App = () => {
 
   const handleFilter = (event) => {
     const search = event.target.value
-    setFilter(search)
+    setFilter(search.toLowerCase())
   }
 
 
 
   const handleNameClick = () => {
-    const updatedName = newName
+    const updatedName = newName.toLowerCase()
     const updatedNumber = newNumber
 
     if (updatedName in persons){
@@ -80,29 +49,19 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          filter shown with {" "}
-          <input name="filtered" value={newFilter} onChange={handleFilter}/>
-        </div>
-      </form>
-      <Filtered persons={persons} newFilter={newFilter}/>
+      <Filter persons={persons}
+              newFilter={newFilter}
+              addPerson={addPerson}
+              handleFilter={handleFilter} />
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name:{" "}
-          <input name="name" value={newName} onChange={handleNewName}/>
-        </div>
-        <div>
-          number:{" "}
-          <input name="number" value={newNumber} onChange={handleNewNumber} />
-        </div>
-        <div>
-          <Button Click={handleNameClick} text='add'/>
-        </div>
-      </form>
+      <PersonForm addPerson = {addPerson}
+                  newName = {newName}
+                  newNumber = {newNumber}
+                  handleNewName = {handleNewName}
+                  handleNewNumber = {handleNewNumber}
+                  handleNameClick = {handleNameClick} />
       <h2>Numbers</h2>
-      <DisplayName persons={persons}/>
+      <Persons persons={persons} />
       ...
     </div>
   )
