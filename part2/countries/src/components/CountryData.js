@@ -1,3 +1,6 @@
+import WheaterData from "./WheaterData";
+
+
 const CountryData = ({ country }) => {
   return(
     <div>
@@ -11,6 +14,7 @@ const CountryData = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png} alt="flag" width="200" />
+      <WheaterData country={country} />
     </div>
   )
 }
