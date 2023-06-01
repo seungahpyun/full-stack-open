@@ -1,15 +1,14 @@
-import React from 'react'
-
-
-const Persons = ({persons}) => {
-  const personList = Object.entries(persons)
+const Persons = ({ personsToShow, deletePerson }) => {
   return (
     <div>
-      {personList.map(([name , number]) =>
-        <div key={name}>
-          {name} {number}
+      {personsToShow.map((person) => (
+        <div key={person.name}>
+          {person.name} {person.number}{" "}
+          <button onClick={() => deletePerson(person.id, person.name)}>
+            delete
+          </button>
         </div>
-      )}
+      ))}
     </div>
   )
 }
