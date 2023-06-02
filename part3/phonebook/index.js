@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 let persons=[
   {
@@ -29,8 +30,6 @@ let info = `<p>Phonebook has info for ${persons.length} people</p>
 
 
 
-
-
 app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
@@ -47,6 +46,33 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(person => person.id !== id)
+  response.status(204).end()
+})
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+  const name = request.body.name
+  const number = request.body.number
+
+  if (!body.content) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const person = {
+    name: name,
+    number: number,
+    id: Math.random() * 10000000000000000,
+  }
+
+  persons = persons.concat(person)
+  response.json(person)
 })
 
 
