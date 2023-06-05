@@ -1,9 +1,13 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const cors = require('cors')
 
 
+app.use(cors())
 app.use(express.json())
+app.use(express.static('build'))
+
 morgan.token("data", (req) => {
   return req.method === "POST" ? JSON.stringify(req.body) : " "}
 )
@@ -39,7 +43,11 @@ let persons=[
 let info = `<p>Phonebook has info for ${persons.length} people</p>
             <p>${new Date()}</p>`
 
-
+const generateId = () => {
+  const id = Math.ceil(Math.random() * 1000000);
+  if (persons.some((person) => person.id === id)) return generateId();
+  return id;
+}
 
 app.get('/api/persons', (request, response) => {
   response.json(persons)
@@ -77,9 +85,9 @@ app.post('/api/persons', (request, response) => {
   }
 
   const person = {
-    name: name,
-    number: number,
-    id: Math.random() * 10000000000000000,
+    name: body.name,
+    number: body.number,
+    id: generateId(),
   }
 
   persons = persons.concat(person)
@@ -87,7 +95,7 @@ app.post('/api/persons', (request, response) => {
 })
 
 
-const PORT=3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
