@@ -10,37 +10,37 @@ mongoose.connect(url)
   })
 
 
-  const numberValidators = [
-    {
-      validator: (number) => {
-        if ((number[2] === "-" || number[3] === "-") && number.length < 9) {
-          return false;
-        }
-        return true;
-      },
-      msg: "must be at least 8 digits",
+const numberValidators = [
+  {
+    validator: (number) => {
+      if ((number[2] === "-" || number[3] === "-") && number.length < 9) {
+        return false;
+      }
+      return true;
     },
-    {
-      validator: (number) => {
-        return /^\d{2,3}-\d+$/.test(number);
-      },
-      msg: "invalid phone number",
+    msg: "must be at least 8 digits",
+  },
+  {
+    validator: (number) => {
+      return /^\d{2,3}-\d+$/.test(number);
     },
-  ]
+    msg: "invalid phone number",
+  },
+]
 
 const schema = new mongoose.Schema({
-    name: {
-      type: String,
-      minlength: 3,
-      required: true,
-      unique: true
-    },
-    number:{
-      type: String,
-      validate: numberValidators,
-      required: true
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+    unique: true
+  },
+  number:{
+    type: String,
+    validate: numberValidators,
+    required: true
 
-    }
+  }
 })
 
 schema.set('toJSON', {
