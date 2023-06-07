@@ -8,7 +8,7 @@ if (process.argv.length<3) {
 const password = process.argv[2]
 
 const url =
-  `mongodb+srv://seungahpyun:${password}@cluster0.8f6er9b.mongodb.net/phonebook?retryWrites=true&w=majority`
+  `mongodb+srv://seungahpyun:${password}@cluster0.hjw8ibf.mongodb.net/phonebook?retryWrites=true&w=majority`
 
 const Person = mongoose.model(
   'Person',
