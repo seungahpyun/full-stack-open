@@ -38,4 +38,5 @@ mongoose.connect(url).then(() => {
     }
     default:
       mongoose.connection.close()
-}})
+  }
+})
