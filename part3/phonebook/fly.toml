@@ -1,10 +1,12 @@
-# fly.toml app configuration file generated for frosty-star-5890 on 2023-06-07T17:37:27+02:00
+# fly.toml app configuration file generated for frosty-star-5890 on 2023-06-07T20:30:18+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
-
 app = "frosty-star-5890"
 primary_region = "ams"
+
+[env]
+  PORT = "3001"
 
 [http_service]
   internal_port = 3001
