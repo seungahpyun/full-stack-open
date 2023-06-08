@@ -16,8 +16,18 @@ const favoriteBlog = (blogs) => {
   return blogs.reduce(reducer, {})
 }
 
+const mostBlogs = (blogs) => {
+  const authors = blogs.map(blog => blog.author)
+  const author = authors.sort((a, b) =>
+    authors.filter(v => v === a).length
+    - authors.filter(v => v === b).length
+  ).pop()
+  return blogs.find(blog => blog.author === author)
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
