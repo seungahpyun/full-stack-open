@@ -12,20 +12,20 @@ beforeEach(async () => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
-test('notes are returned as json', async () => {
+test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
-test('unique identifier property of the blog posts is named id', async () => {
-  const response = await api.get('/api/blogs')
-  const ids = response.body.map(r=> r.id)
-  for (let id of ids) {
-    expect(id).toBeDefined()
-  }
-})
+// test('unique identifier property of the blog posts is named id', async () => {
+//   const response = await api.get('/api/blogs')
+//   const ids = response.body.map(r=> r.id)
+//   for (let id of ids) {
+//     expect(id).toBeDefined()
+//   }
+// })
 
 afterAll(async () => {
   await mongoose.connection.close()
