@@ -49,10 +49,22 @@ describe('addition of a new blog', () => {
       const titles = finalBlogs.map(r => r.title)
       expect(titles).toContain('Test Blog')
   })
+
+  test('if likes property is missing from the request, it will default to the value 0', async () => {
+    const response = await api
+        .post('/api/blogs')
+        .send({ author: 'Test Author', title: 'Test Blog', url: 'http://testblog.com' })
+        .expect(201)
+    expect(response.body.likes).toBe(0)
+  })
 })
 
-
-
+test('if title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request', async () => {
+  await api
+    .post('/api/blogs')
+    .send({ author: 'Test Author', likes: 10 })
+    .expect(400)
+})
 
 afterAll(async () => {
   await mongoose.connection.close()
