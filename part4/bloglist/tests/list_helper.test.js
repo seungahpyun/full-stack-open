@@ -77,6 +77,10 @@ test('mostBlogs returns the author with most blogs', () => {
   expect(result).toEqual(blogs[3])
 })
 
+test('mostLikes returns the author with most likes', () => {
+  const result = listHelper.mostLikes(blogs)
+  expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 })
+})
 
 describe('total likes', () => {
   test('when list has only one blog, equals the likes of that', () => {
