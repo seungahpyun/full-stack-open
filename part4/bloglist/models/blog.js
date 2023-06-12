@@ -9,7 +9,6 @@ mongoose.connect(config.MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
-
 const blogSchema = new mongoose.Schema({
   title: String,
   author: String,
