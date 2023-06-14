@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, []);
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -32,18 +34,17 @@ const App = () => {
       })
 
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
-      blogService.setToken(user.token);
+      blogService.setToken(user.token)
       setUser(user)
-
       setUsername('')
       setPassword('')
       setErrorMessage(null)
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error)
       if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.error);
+        setErrorMessage(error.response.data.error)
       } else {
-        setErrorMessage('Error occurred during login');
+        setErrorMessage('Error occurred during login')
       }
     }
   }
@@ -51,6 +52,20 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+  }
+
+  const handleCreateBlog = async (blog) => {
+    try {
+      const createdBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(createdBlog))
+    } catch (error) {
+      console.error('Create blog error:', error)
+      if (error.response && error.response.data) {
+        setErrorMessage(error.response.data.error)
+      } else {
+        setErrorMessage('Error occurred during blog creation')
+      }
+    }
   }
 
   const loginForm = () => (
@@ -83,8 +98,10 @@ const App = () => {
 
   const blogForm = () => (
     <div>
-      <p>hello, {user.name} 👋</p>
+      <p>hello, {user.username} 👋</p>
       <button onClick={handleLogout}>logout</button>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <BlogForm handleCreateBlog={handleCreateBlog}/>
       <h2>blogs</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
