@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -52,12 +53,14 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    setErrorMessage(null)
   }
 
   const handleCreateBlog = async (blog) => {
     try {
       const createdBlog = await blogService.create(blog)
       setBlogs(blogs.concat(createdBlog))
+      setErrorMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
     } catch (error) {
       console.error('Create blog error:', error)
       if (error.response && error.response.data) {
@@ -70,8 +73,7 @@ const App = () => {
 
   const loginForm = () => (
     <div>
-      <h2>blogs</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <Notification message={errorMessage} />
       <form onSubmit={handleLogin}>
         <div>
           username
@@ -98,9 +100,9 @@ const App = () => {
 
   const blogForm = () => (
     <div>
+      <Notification message={errorMessage} />
       <p>hello, {user.username} 👋</p>
       <button onClick={handleLogout}>logout</button>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <BlogForm handleCreateBlog={handleCreateBlog}/>
       <h2>blogs</h2>
       {blogs.map((blog) => (
@@ -111,6 +113,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Blog</h1>
       {!user ? loginForm() : blogForm()}
     </div>
   )
