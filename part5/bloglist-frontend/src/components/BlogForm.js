@@ -3,11 +3,11 @@ import blogService from '../services/blogs'
 
 
 
-const BlogForm = ({blogs, setBlogs, setErrorMessage}) => {
+
+const BlogForm = ({blogs, setBlogs, setErrorMessage, blogFormRef}) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
-
 
     const handleSubmit = (event) => {
       event.preventDefault()
@@ -22,9 +22,9 @@ const BlogForm = ({blogs, setBlogs, setErrorMessage}) => {
       setUrl('')
     }
 
-
     const handleCreateBlog = async (blog) => {
       try {
+        blogFormRef.current.toggleVisibility()
         const createdBlog = await blogService.create(blog)
         setBlogs(blogs.concat(createdBlog))
         setErrorMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
@@ -70,6 +70,7 @@ const BlogForm = ({blogs, setBlogs, setErrorMessage}) => {
               />
           </div>
           <button type="submit">create</button>
+
         </form>
       </div>
   )
