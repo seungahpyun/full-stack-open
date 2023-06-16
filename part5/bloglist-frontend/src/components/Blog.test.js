@@ -14,8 +14,10 @@ const blog = {
   }
 }
 
+const mockHandler = jest.fn()
+
 beforeEach(() => {
-  render(<Blog blog={blog} />)
+  render(<Blog blog={blog} handleLikeBlog={mockHandler}/>)
 })
 
 test('renders title and author, but not url or likes by default', () => {
@@ -33,4 +35,21 @@ test('renders url and likes when view button is clicked', () => {
 
   expect(screen.getByTestId('blog-url')).toBeInTheDocument()
   expect(screen.getByTestId('blog-likes')).toBeInTheDocument()
+})
+
+test('clicking like button twice calls event handler twice', () => {
+  const viewButtons = screen.getAllByText('view')
+  const viewButton = viewButtons[0]; // Select the first matching button
+
+  act(() => {
+    viewButton.click()
+  })
+
+  const likeButton = screen.getByText('like')
+  act(() => {
+    likeButton.click();
+    likeButton.click();
+  })
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })
