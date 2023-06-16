@@ -43,27 +43,27 @@ const BlogForm = ({ blogs, setBlogs, setErrorMessage, blogFormRef }) => {
         <div>
             title:
           <input
-            type="text"
+            type='text'
             value={title}
-            id="title"
+            id='title'
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
             author:
           <input
-            type="text"
+            type='text'
             value={author}
-            id="author"
+            id='author'
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
             url:
           <input
-            type="text"
+            type='text'
             value={url}
-            id="url"
+            id='url'
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>

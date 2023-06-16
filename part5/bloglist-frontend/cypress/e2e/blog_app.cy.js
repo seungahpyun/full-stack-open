@@ -66,5 +66,20 @@ describe('Blog app', function() {
       cy.contains('likes 13')
     })
 
+    it('A blog can be deleted', function() {
+      cy.get('#username').type('test')
+      cy.wait(500)
+      cy.get('#password').type('test')
+      cy.wait(500)
+      cy.get('#login-button').click()
+      cy.wait(1000)
+
+      cy.get('#title-author').contains('test title - test author')
+      cy.contains('view').click()
+      cy.get('#delete-button').click()
+      cy.wait(1000)
+
+      cy.get('html').should('not.contain', 'test title - test author')
+    })
   })
 })
