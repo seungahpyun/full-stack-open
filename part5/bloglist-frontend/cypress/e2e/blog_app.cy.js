@@ -26,8 +26,9 @@ describe('Blog app', function() {
       cy.wait(500)
       cy.get('#login-button').click()
       cy.wait(1000)
-
-      cy.contains('Error : invalid username or password')
+      cy.get('#notification-error')
+        .should('contain', 'Error : invalid username or password')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
 })
