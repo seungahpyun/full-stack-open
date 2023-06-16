@@ -25,7 +25,7 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
           <div data-testid="blog-url">{blog.url}</div>
           <div data-testid="blog-likes">
             likes {blog.likes}
-            <button onClick={() => handleLikeBlog(blog)}>like</button>
+            <button id='like-button' onClick={() => handleLikeBlog(blog)}>like</button>
           </div>
           <div data-testid="blog-author">{blog.author}</div>
           <button onClick={() => handleDeleteBlog(blog)}>delete</button>

@@ -50,5 +50,21 @@ describe('Blog app', function() {
 
       cy.contains('test title - test author')
     })
+
+    it('A blog can be liked', function() {
+      cy.get('#username').type('test')
+      cy.wait(500)
+      cy.get('#password').type('test')
+      cy.wait(500)
+      cy.get('#login-button').click()
+      cy.wait(1000)
+
+      cy.contains('view').click()
+      cy.get('#like-button').click()
+      cy.wait(1000)
+
+      cy.contains('likes 13')
+    })
+
   })
 })
