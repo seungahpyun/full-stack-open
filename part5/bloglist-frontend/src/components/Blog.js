@@ -14,8 +14,8 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
   return (
     <div style={blogStyle}>
       <div>
-        <span data-testid="blog-title" className="title">{blog.title} - </span>
-        <span data-testid="blog-author" className="author">{blog.author}</span>
+        <span data-testid="blog-title">{blog.title} - </span>
+        <span data-testid="blog-author">{blog.author}</span>
       </div>
       <button onClick={() => setExpanded(!expanded)}>
         {expanded ? 'hide' : 'view'}
