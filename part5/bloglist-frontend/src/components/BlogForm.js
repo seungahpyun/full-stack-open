@@ -17,6 +17,7 @@ const BlogForm = ({blogs, setBlogs, setErrorMessage, blogFormRef}) => {
       setTitle('')
       setAuthor('')
       setUrl('')
+
     }
 
     const handleCreateBlog = async (blog) => {
