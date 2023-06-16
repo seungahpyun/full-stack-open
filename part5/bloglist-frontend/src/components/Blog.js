@@ -22,12 +22,12 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
       </button>
       {expanded && (
         <div className="blog-details">
-          <div>{blog.url}</div>
-          <div>
+          <div data-testid="blog-url">{blog.url}</div>
+          <div data-testid="blog-likes">
             likes {blog.likes}
             <button onClick={() => handleLikeBlog(blog)}>like</button>
           </div>
-          <div>{blog.author}</div>
+          <div data-testid="blog-author">{blog.author}</div>
           <button onClick={() => handleDeleteBlog(blog)}>delete</button>
         </div>
       )}
