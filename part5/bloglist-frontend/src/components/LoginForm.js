@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import Notification from './Notification'
 import loginService from '../services/login'
 
-const LoginForm = ({ setUser, setErrorMessage , errorMessage}) => {
+const LoginForm = ({ setUser, setErrorMessage , errorMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -15,7 +15,7 @@ const LoginForm = ({ setUser, setErrorMessage , errorMessage}) => {
         password,
       })
 
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -55,7 +55,7 @@ const LoginForm = ({ setUser, setErrorMessage , errorMessage}) => {
         </div>
         <button type="submit">login</button>
       </form>
-  </div>
+    </div>
   )
 }
 
