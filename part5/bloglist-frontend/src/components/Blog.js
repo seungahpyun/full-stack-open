@@ -13,18 +13,21 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}
+      <div>
+        <span data-testid="blog-title" className="title">{blog.title} - </span>
+        <span data-testid="blog-author" className="author">{blog.author}</span>
+      </div>
       <button onClick={() => setExpanded(!expanded)}>
         {expanded ? 'hide' : 'view'}
       </button>
       {expanded && (
-        <div>
-          <div>{blog.url}</div>
-          <div>
+        <div className="blog-details">
+          <div data-testid="blog-url">{blog.url}</div>
+          <div data-testid="blog-likes">
             likes {blog.likes}
             <button onClick={() => handleLikeBlog(blog)}>like</button>
           </div>
-          <div>{blog.author}</div>
+          <div data-testid="blog-author">{blog.author}</div>
           <button onClick={() => handleDeleteBlog(blog)}>delete</button>
         </div>
       )}
