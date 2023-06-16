@@ -39,7 +39,7 @@ test('renders url and likes when view button is clicked', () => {
 
 test('clicking like button twice calls event handler twice', () => {
   const viewButtons = screen.getAllByText('view')
-  const viewButton = viewButtons[0]; // Select the first matching button
+  const viewButton = viewButtons[0] // Select the first matching button
 
   act(() => {
     viewButton.click()
@@ -47,9 +47,26 @@ test('clicking like button twice calls event handler twice', () => {
 
   const likeButton = screen.getByText('like')
   act(() => {
-    likeButton.click();
-    likeButton.click();
+    likeButton.click()
+    likeButton.click()
   })
 
   expect(mockHandler.mock.calls).toHaveLength(2)
+})
+
+test('new blog form calls event handler with correct details', () => {
+  const viewButtons = screen.getAllByText('view')
+  const viewButton = viewButtons[0] // Select the first matching button
+
+  act(() => {
+    viewButton.click()
+  })
+
+  const likeButton = screen.getByText('like')
+  act(() => {
+    likeButton.click()
+  })
+
+  expect(mockHandler).toHaveBeenCalledTimes(1)
+  expect(mockHandler).toHaveBeenCalledWith(blog)
 })
