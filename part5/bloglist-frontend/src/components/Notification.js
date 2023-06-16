@@ -23,8 +23,8 @@ const Notification = ({ message }) => {
   }
 
   const notificationId = message.includes('Error')
-  ? 'notification-error'
-  : 'notification-success'
+    ? 'notification-error'
+    : 'notification-success'
 
   return (
     <div className='notification' id = {`${notificationId}`}>
