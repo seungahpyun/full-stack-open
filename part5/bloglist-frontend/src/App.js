@@ -32,15 +32,26 @@ const App = () => {
   }
 
   const handleLikeBlog = async (blog) => {
-    const newBlog = {
-      ...blog,
-      likes: blog.likes + 1,
+    if (!blog.id) {
+      console.log('Error: Blog ID is missing')
+      return
     }
-    const updatedBlog = await blogService.update(blog.id, newBlog)
-    setBlogs((blogs) =>
-      blogs.map((b) => (b.id !== updatedBlog.id ? b : updatedBlog))
-    )
+    const currentLikes = blog.likes || 0
+    const updatedBlog = { ...blog, likes: currentLikes + 1 }
+
+    try {
+      const response = await blogService.update(blog.id, updatedBlog)
+      console.log('Update response:', response)
+      const updatedBlogId = response.id
+
+      setBlogs((blogs) =>
+        blogs.map((b) => (b.id !== updatedBlogId ? b : response))
+      )
+    } catch (error) {
+      console.log('An error occurred while updating the blog:', error)
+    }
   }
+
 
   const handleDeleteBlog = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
@@ -58,13 +69,20 @@ const App = () => {
         <div>
           <p>hello, {user && user.username} 👋</p>
           <button onClick={handleLogout}>logout</button>
-          <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
+          <Togglable buttonLabel='Create New Blog'ref={blogFormRef}>
             <BlogForm blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} blogFormRef={blogFormRef} />
           </Togglable>
           <h2>blogs</h2>
-          {blogs.sort((a, b) => b.likes - a.likes).map((blog) => (
-            <Blog key={blog.id} blog={blog} handleLikeBlog={handleLikeBlog} handleDeleteBlog={handleDeleteBlog} currentUser={user.username}/>)
-          )}
+          {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              handleLikeBlog={handleLikeBlog}
+              handleDeleteBlog={handleDeleteBlog}
+              currentUser={user ? user.username : null}
+            />
+          ))}
+
         </div>
       )}
     </div>
