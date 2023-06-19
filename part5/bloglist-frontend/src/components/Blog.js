@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
+const Blog = ({ blog, handleLikeBlog, handleDeleteBlog, currentUser }) => {
   const [expanded, setExpanded] = useState(false)
 
   const blogStyle = {
@@ -10,6 +10,9 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+
+  const isCurrentUserCreator = blog.user && blog.user.username ? blog.user.username === currentUser : false
+
 
   return (
     <div style={blogStyle}>
@@ -28,7 +31,9 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog }) => {
             <button id='like-button' onClick={() => handleLikeBlog(blog)}>like</button>
           </div>
           <div data-testid='blog-author'>{blog.author}</div>
-          <button id='delete-button' onClick={() => handleDeleteBlog(blog)}>delete</button>
+          {isCurrentUserCreator && ( // Render the delete button only if the current user is the creator
+            <button id='delete-button' onClick={() => handleDeleteBlog(blog)}>delete</button>
+          )}
         </div>
       )}
     </div>
