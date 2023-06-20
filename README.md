@@ -25,9 +25,15 @@ This course provides an introduction to modern web development using JavaScript.
 - Testing and backend
 - User administration
 - Token administration
-## [part 5 - Testing React apps](https://fullstackopen.com/en/part5)
+## [Part 5 - Testing React apps](https://fullstackopen.com/en/part5)
 - Login in frontend
 - props.children and proptypes
 - Testing React apps
 - End to end testing
+## [Part 6 - Advanced state management](https://fullstackopen.com/en/part6)
+- Flux-architecture and Redux
+- Many reducers
+- Communicating with server in a redux application
+- React Query, useReducer and the context
+- Connect
 
