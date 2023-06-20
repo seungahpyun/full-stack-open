@@ -7,7 +7,7 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+const getId = () => parseInt((100000 * Math.random()).toFixed(0), 10)
 
 const asObject = (anecdote) => {
   return {
@@ -23,21 +23,21 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'VOTE':
       const id = action.data.id
-      const anecdoteToChange = state.find(a => a.id === id)
-      const changedAnecdote = {
-        ...anecdoteToChange,
-        votes: anecdoteToChange.votes + 1
-      }
-      const newState = state.map(anecdote =>
-        anecdote.id !== id ? anecdote : changedAnecdote
-      )
-      return newState.sort((a, b) => b.votes - a.votes)
+      const updatedState = state.map(anecdote => {
+        if (anecdote.id === id) {
+          return {
+            ...anecdote,
+            votes: anecdote.votes + 1,
+          }
+        }
+        return anecdote
+      })
+      return [...updatedState].sort((a, b) => b.votes - a.votes)
     case 'NEW_ANECDOTE':
       return [...state, action.data]
     default:
-      break
+      return state
   }
-  return state
 }
 
 export default reducer
