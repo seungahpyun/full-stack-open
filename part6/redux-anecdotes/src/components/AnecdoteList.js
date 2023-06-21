@@ -1,15 +1,19 @@
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useSelector , useDispatch } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
-
+import { initializeAnecdote } from '../reducers/anecdoteReducer'
+import React, { useEffect } from 'react'
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(initializeAnecdote())
+  }, [dispatch])
+
   const anecdotes = useSelector((state) => {
-    if (state.anecdote && Array.isArray(state.anecdote)) {
+    if (state.anecdote) {
+      console.log(state.filter)
       if (state.filter === 'ALL') {
         return [...state.anecdote].sort((a, b) => b.votes - a.votes)
       }
@@ -17,15 +21,15 @@ const AnecdoteList = () => {
         .filter((anecdote) =>
           anecdote.content.toLowerCase().includes(state.filter.toLowerCase())
         )
-        .sort((a, b) => b.votes - a.votes);
+        .sort((a, b) => b.votes - a.votes)
     }
     return []
   })
 
-  const handleVote = async(id) => {
-    const newVote = await anecdoteService.voteAnecdote(id)
-    dispatch(voteAnecdote(newVote))
-    dispatch(setNotification(`you voted '${newVote.content}'`, 5))
+  const handleVote = (id) => {
+    dispatch(voteAnecdote(id))
+    const anecdote = anecdotes.find((anecdote) => anecdote.id === id)
+    dispatch(setNotification(`you voted '${anecdote.content}'`, 5))
   }
 
   return (
