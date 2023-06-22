@@ -23,8 +23,6 @@ const App = () => {
     return <div>anecdote service not avaiable due to problems in server</div>
   }
 
-
-
   const anecdotes = result.data
 
   return (
