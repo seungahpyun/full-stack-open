@@ -35,5 +35,12 @@ This course provides an introduction to modern web development using JavaScript.
 - Many reducers
 - Communicating with server in a redux application
 - React Query, useReducer and the context
-- Connect
+## [Part 7 - React router, custom hooks, styling app with CSS and webpack](https://fullstackopen.com/en/part7)
+- React Router
+- Custom hooks
+- More about styles
+- Webpack
+- Class components, Miscellaneous
+
+
 
