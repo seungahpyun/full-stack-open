@@ -1,60 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../services/blogs'
 import Notification from './Notification'
 import loginService from '../services/login'
-import { setLogin } from '../reducers/loginReducer'
+import loginReducer from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 
-const LoginForm = ({ setUser, setErrorMessage , errorMessage }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
+const LoginForm = () => {
   const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      dispatch(setLogin(user))
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (error) {
-      console.error('Login error:', error)
-      if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.error)
-      } else {
-        setErrorMessage('Login failed')
-      }
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    }
+    const username = event.target.username.value
+    const password = event.target.password.value
+    const user = await loginService.login({ username, password })
+    dispatch(loginReducer.loginUser(user))
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+    blogService.setToken(user.token)
   }
 
 
   return(
     <div>
-      <Notification message={errorMessage} />
+      <Notification />
       <form onSubmit={handleLogin}>
         <div>
           username
           <input
             type='text'
-            value={username}
             id='username'
-            onChange={({ target }) => setUsername(target.value)}
           />
         </div>
         <div>
           password
           <input
             type='password'
-            value={password}
             id='password'
-            onChange={({ target }) => setPassword(target.value)}
           />
         </div>
         <button type='submit' id='login-button'>login</button>

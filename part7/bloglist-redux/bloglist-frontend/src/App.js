@@ -1,88 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { React, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
-import blogService from './services/blogs'
+// import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutUser } from './reducers/loginReducer'
+import { initializeBlogs } from './reducers/blogReducer'
+// import { setUsers } from './reducers/userReducer'
+import { initializeUsers } from './reducers/userReducer'
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const blogFormRef = useRef()
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
-
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
-    setErrorMessage(null)
-  }
-
-  const handleLikeBlog = async (blog) => {
-    if (!blog.id) {
-      console.log('Error: Blog ID is missing')
-      return
-    }
-    const currentLikes = blog.likes || 0
-    const updatedBlog = { ...blog, likes: currentLikes + 1 }
-
-    try {
-      const response = await blogService.update(blog.id, updatedBlog)
-      console.log('Update response:', response)
-      const updatedBlogId = response.id
-
-      setBlogs((blogs) =>
-        blogs.map((b) => (b.id !== updatedBlogId ? b : response))
-      )
-    } catch (error) {
-      console.log('An error occurred while updating the blog:', error)
-    }
-  }
-
-
-  const handleDeleteBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id)
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
-    }
-  }
+    dispatch(initializeBlogs())
+    dispatch(initializeUsers())
+  }, [dispatch])
 
   return (
     <div>
       <h1>Blog</h1>
       {!user ? (
-        <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} errorMessage={errorMessage} />
+        <LoginForm />
       ) : (
         <div>
           <p>hello, {user && user.username} 👋</p>
-          <button onClick={handleLogout}>logout</button>
-          <Togglable buttonLabel='Create New Blog'ref={blogFormRef}>
-            <BlogForm blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} blogFormRef={blogFormRef} />
+          <button onClick={logoutUser}>logout</button>
+          <Togglable buttonLabel='Create New Blog'>
+            <BlogForm />
           </Togglable>
           <h2>blogs</h2>
-          {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleLikeBlog={handleLikeBlog}
-              handleDeleteBlog={handleDeleteBlog}
-              currentUser={user ? user.username : null}
-            />
-          ))}
-
+          {user && user.blogs && user.blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
         </div>
       )}
     </div>
