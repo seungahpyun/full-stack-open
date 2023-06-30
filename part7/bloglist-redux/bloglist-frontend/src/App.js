@@ -1,14 +1,12 @@
 import { React, useEffect } from 'react'
-import Blog from './components/Blog'
-import BlogForm from './components/BlogForm'
 // import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
-import Togglable from './components/Togglable'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from './reducers/loginReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 // import { setUsers } from './reducers/userReducer'
 import { initializeUsers } from './reducers/userReducer'
+import BlogList from './components/BlogList'
 
 
 const App = () => {
@@ -30,13 +28,7 @@ const App = () => {
         <div>
           <p>hello, {user && user.username} 👋</p>
           <button onClick={logoutUser}>logout</button>
-          <Togglable buttonLabel='Create New Blog'>
-            <BlogForm />
-          </Togglable>
-          <h2>blogs</h2>
-          {user && user.blogs && user.blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
+          <BlogList />
         </div>
       )}
     </div>

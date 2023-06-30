@@ -8,15 +8,18 @@ const loginSlice = createSlice({
   initialState: null,
   reducers: {
     setLogin: (state, action) => action.payload,
+    setLogout: () => null,
   },
 })
+
+export const { setLogin, setLogout } = loginSlice.actions
 
 export const loginUser = (username, password) => {
   return async dispatch => {
     try{
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      dispatch(loginSlice.setLogin(user))
+      dispatch(setLogin(user))
       dispatch(setNotification(`Welcome ${user.name}`, 'success', 5))
     }
     catch (exception) {
@@ -33,7 +36,7 @@ export const loginUser = (username, password) => {
 export const logoutUser = () => {
   return async dispatch => {
     window.localStorage.removeItem('loggedBlogappUser')
-    dispatch(loginSlice.setLogin(null))
+    dispatch(setLogout(null))
   }
 }
 
@@ -42,7 +45,7 @@ export const initializeLogin = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      dispatch(loginSlice.setLogin(user))
+      dispatch(setLogin(user))
     }
   }
 }
