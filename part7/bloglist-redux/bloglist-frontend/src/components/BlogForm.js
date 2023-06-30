@@ -9,16 +9,17 @@ const BlogForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
     const title = event.target.title.value
     const author = event.target.author.value
     const url = event.target.url.value
 
-    const blog = await blogService.create({ title, author, url })
-    dispatch(blogReducer.addBlog(blog))
-    dispatch(notificationReducer.setNotification(`a new blog ${blog.title} by ${blog.author} added`, 5))
     event.target.title.value = ''
     event.target.author.value = ''
     event.target.url.value = ''
+    const newBlog = await blogService.create({ title, author, url })
+    dispatch(blogReducer.appendBlog(newBlog))
+    dispatch(notificationReducer.setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
   }
 
   return (

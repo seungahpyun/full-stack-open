@@ -2,47 +2,47 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import { useParams } from 'react-router-dom'
 
-const Blog = () => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch()
-
-  const id = useParams().id
-  const blogs = useSelector(state => state.blogs)
-  const blog = blogs.find(blog => blog.id === id)
-  const currentUser = useSelector(state => state.user)
-
+  const user = useSelector(state => state.login)
 
   useEffect(() => {
     if (blog) {
-      dispatch(setNotification(`you liked '${blog.title}'`, 5))
+      document.title = `${blog.title} | Blog App`
     }
-  }, [blog, dispatch])
+  }, [blog])
 
   const handleLike = async () => {
     dispatch(likeBlog(blog))
+    dispatch(setNotification(`you liked ${blog.title}`, 5))
   }
 
-
-  if (!blog) {
-    return null
+  const handleDelete = async () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      dispatch(deleteBlog(blog))
+      dispatch(setNotification(`you deleted ${blog.title}`, 5))
+    }
   }
 
   return (
     <div>
       <h2>{blog.title} {blog.author}</h2>
-      <p>{blog.url}</p>
-      <p>
+      <div>
+        <a href={blog.url}>{blog.url}</a>
+      </div>
+      <div>
         {blog.likes} likes
         <button onClick={handleLike}>like</button>
-      </p>
-      <p>added by {blog.user.username}</p>
-      {currentUser && currentUser.username === blog.user.username && (
-        <button onClick={() => dispatch(deleteBlog(blog))}>remove</button>
-      )}
+        {blog.user && blog.user.username === user.username && (
+          <button onClick={handleDelete}>remove</button>
+        )}
+      </div>
+      <div>
+        added by {blog.user && blog.user.name}
+      </div>
     </div>
   )
 }
-
 
 export default Blog
