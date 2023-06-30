@@ -1,53 +1,48 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { useParams } from 'react-router-dom'
 
-const Blog = ({ blog, handleLikeBlog, handleDeleteBlog, currentUser }) => {
-  const [expanded, setExpanded] = useState(false)
-  const [isCreator, setIsCreator] = useState(false)
+const Blog = () => {
+  const dispatch = useDispatch()
+
+  const id = useParams().id
+  const blogs = useSelector(state => state.blogs)
+  const blog = blogs.find(blog => blog.id === id)
+  const currentUser = useSelector(state => state.user)
+
 
   useEffect(() => {
-    setIsCreator(blog.user && blog.user.id === currentUser.id)
-  }, [blog.user, currentUser.id])
+    if (blog) {
+      dispatch(setNotification(`you liked '${blog.title}'`, 5))
+    }
+  }, [blog, dispatch])
 
-  const toggleExpanded = () => {
-    setExpanded(!expanded)
+  const handleLike = async () => {
+    dispatch(likeBlog(blog))
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
+
+  if (!blog) {
+    return null
   }
 
   return (
-    <div style={blogStyle} className='blog-details'>
-      <div id='title-author'>
-        <span data-testid='blog-title'>{blog.title} - </span>
-        <span data-testid='blog-author'>{blog.author}</span>
-      </div>
-      <button id='view-button' onClick={toggleExpanded}>
-        {expanded ? 'hide' : 'view'}
-      </button>
-      {expanded && (
-        <div>
-          <div data-testid='blog-url'>{blog.url}</div>
-          <div data-testid='blog-likes'>
-            likes {blog.likes}
-            <button id='like-button' onClick={() => handleLikeBlog(blog)}>
-              like
-            </button>
-          </div>
-          <div data-testid='blog-author'>{blog.author}</div>
-        </div>
-      )}
-      {isCreator && expanded && ( // Render the delete button only if the current user is the creator and the blog is expanded
-        <button id='delete-button' onClick={() => handleDeleteBlog(blog)}>
-          delete
-        </button>
+    <div>
+      <h2>{blog.title} {blog.author}</h2>
+      <p>{blog.url}</p>
+      <p>
+        {blog.likes} likes
+        <button onClick={handleLike}>like</button>
+      </p>
+      <p>added by {blog.user.username}</p>
+      {currentUser && currentUser.username === blog.user.username && (
+        <button onClick={() => dispatch(deleteBlog(blog))}>remove</button>
       )}
     </div>
   )
 }
+
 
 export default Blog
