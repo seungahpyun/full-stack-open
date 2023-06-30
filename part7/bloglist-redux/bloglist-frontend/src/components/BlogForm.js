@@ -21,8 +21,6 @@ const BlogForm = () => {
     event.target.url.value = ''
   }
 
-
-
   return (
     <div>
       <h2>Create new</h2>

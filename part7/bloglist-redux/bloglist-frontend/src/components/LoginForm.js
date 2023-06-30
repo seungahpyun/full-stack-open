@@ -1,9 +1,10 @@
 import React from 'react'
-import blogService from '../services/blogs'
+// import blogService from '../services/blogs'
 import Notification from './Notification'
-import loginService from '../services/login'
-import loginReducer from '../reducers/loginReducer'
+// import loginService from '../services/login'
+import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
+import { initializeBlogs } from '../reducers/blogReducer'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -12,12 +13,9 @@ const LoginForm = () => {
     event.preventDefault()
     const username = event.target.username.value
     const password = event.target.password.value
-    const user = await loginService.login({ username, password })
-    dispatch(loginReducer.loginUser(user))
-    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-    blogService.setToken(user.token)
+    dispatch(loginUser(username, password))
+    dispatch(initializeBlogs)
   }
-
 
   return(
     <div>

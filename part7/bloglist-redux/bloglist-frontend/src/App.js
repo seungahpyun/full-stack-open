@@ -11,7 +11,7 @@ import BlogList from './components/BlogList'
 
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
+  const user = useSelector(state => state.login)
 
 
   useEffect(() => {
