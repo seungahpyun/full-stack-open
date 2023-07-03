@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 const UserInfo = () => {
   const userInfo = useSelector(state => state.users)
 
-  console.log(userInfo)
   const users = userInfo
     ? userInfo.map(user => {
       return {
@@ -14,7 +13,11 @@ const UserInfo = () => {
       }
     })
     : []
-  console.log(users[0])
+
+  if (!users) {
+    return null
+  }
+
 
 
   return (

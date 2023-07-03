@@ -39,7 +39,7 @@ const Blog = ({ blog }) => {
         )}
       </div>
       <div>
-        added by {blog.user && blog.user.name}
+        added by {blog.user && blog.user.username}
       </div>
     </div>
   )
