@@ -47,7 +47,6 @@ export const deleteBlog = (blog) => {
   }
 }
 
-
 export const likeBlog = (blog) => {
   return async dispatch => {
     try {
@@ -59,8 +58,6 @@ export const likeBlog = (blog) => {
     }
   }
 }
-
-
 
 export const initializeBlogs = () => {
   return async dispatch => {
