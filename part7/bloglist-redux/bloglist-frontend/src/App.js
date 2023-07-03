@@ -6,6 +6,8 @@ import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import Nodification from './components/Notification'
 import UserInfo from './components/UserInfo'
+import { logoutUser } from './reducers/loginReducer'
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -26,6 +28,7 @@ const App = () => {
         <div>
           <p>hello, {user && user.username} 👋</p>
           <p>{user && user.username} logged in</p>
+          <button onClick={() => dispatch(logoutUser())}>logout</button>
           <UserInfo />
           <BlogList />
         </div>
