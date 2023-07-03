@@ -6,18 +6,17 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import  { useNotification } from './NotificationContext'
 import Notification from './components/Notification'
+import { useQuery, useQueryClient } from 'react-query'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
   const blogFormRef = useRef()
+  const queryClient = useQueryClient()
 
   const { setNotification } = useNotification()
 
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+  const fetchBlogs = () => blogService.getAll()
+  const { data: blogs, isSuccess } = useQuery('blogs', fetchBlogs)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -31,36 +30,25 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-    setErrorMessage(null)
   }
 
   const handleLikeBlog = async (blog) => {
-    if (!blog.id) {
-      console.log('Error: Blog ID is missing')
-      return
-    }
     const currentLikes = blog.likes || 0
     const updatedBlog = { ...blog, likes: currentLikes + 1 }
 
     try {
-      const response = await blogService.update(blog.id, updatedBlog)
-      console.log('Update response:', response)
-      const updatedBlogId = response.id
-
-      setBlogs((blogs) =>
-        blogs.map((b) => (b.id !== updatedBlogId ? b : response))
-      )
-      setNotification(`Blog ${updatedBlog.title} was liked!`)  // Add this line
+      await blogService.update(blog.id, updatedBlog)
+      setNotification(`Blog ${updatedBlog.title} was liked!`)
+      queryClient.invalidateQueries('blogs')
     } catch (error) {
-      console.log('An error occurred while updating the blog:', error)
-      setNotification('An error occurred while updating the blog', 'error')  // And this line
+      setNotification('An error occurred while updating the blog', 'error')
     }
   }
 
   const handleDeleteBlog = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       await blogService.remove(blog.id)
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
+      queryClient.invalidateQueries('blogs')
     }
   }
 
@@ -69,24 +57,28 @@ const App = () => {
       <h1>Blog</h1>
       <Notification />
       {!user ? (
-        <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} errorMessage={errorMessage} />
+        <LoginForm setUser={setUser} />
       ) : (
         <div>
           <p>hello, {user && user.username} 👋</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel='Create New Blog' ref={blogFormRef}>
-            <BlogForm blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} blogFormRef={blogFormRef} />
+            <BlogForm blogFormRef={blogFormRef} />
           </Togglable>
-          <h2>blogs</h2>
-          {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleLikeBlog={handleLikeBlog}
-              handleDeleteBlog={handleDeleteBlog}
-              currentUser={user ? user.username : null}
-            />
-          ))}
+          {isSuccess && (
+            <div>
+              <h2>blogs</h2>
+              {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  handleLikeBlog={handleLikeBlog}
+                  handleDeleteBlog={handleDeleteBlog}
+                  currentUser={user ? user.username : null}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

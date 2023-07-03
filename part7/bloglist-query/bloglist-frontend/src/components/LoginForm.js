@@ -2,10 +2,14 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import Notification from './Notification'
 import loginService from '../services/login'
+import { useNotification } from '../NotificationContext'
 
-const LoginForm = ({ setUser, setErrorMessage , errorMessage }) => {
+
+const LoginForm = ({ setUser, errorMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const { setNotification } = useNotification()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -20,13 +24,13 @@ const LoginForm = ({ setUser, setErrorMessage , errorMessage }) => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setErrorMessage(null)
+      setNotification(null)
     } catch (error) {
       console.error('Login error:', error)
       if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.error)
+        setNotification(error.response.data.error)
       } else {
-        setErrorMessage('Error occurred during login')
+        setNotification('Error occurred during login')
       }
     }
   }
