@@ -1,39 +1,28 @@
 import React, { useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs, setErrorMessage, blogFormRef }) => {
+const BlogForm = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation(blogService.create, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('blogs')
+    },
+  })
+
   const handleSubmit = (event) => {
     event.preventDefault()
-    const newBlog = {
-      title,
-      author,
-      url,
-    }
-    handleCreateBlog(newBlog)
+    mutation.mutate({ title, author, url })
     setTitle('')
     setAuthor('')
     setUrl('')
   }
 
-  const handleCreateBlog = async (blog) => {
-    try {
-      blogFormRef.current.toggleVisibility()
-      const createdBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(createdBlog))
-      setErrorMessage(`a new blog ${createdBlog.title} by ${createdBlog.author} added`)
-    } catch (error) {
-      console.error('Create blog error:', error)
-      if (error.response && error.response.data) {
-        setErrorMessage(error.response.data.error)
-      } else {
-        setErrorMessage('Error occurred during blog creation')
-      }
-    }
-  }
 
   return (
     <div>

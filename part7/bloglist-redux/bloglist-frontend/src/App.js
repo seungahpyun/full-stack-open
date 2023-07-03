@@ -5,7 +5,7 @@ import { logoutUser } from './reducers/loginReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
-
+import Nodification from './components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,6 +19,7 @@ const App = () => {
   return (
     <div>
       <h1>Blog</h1>
+      <Nodification />
       {!user ? (
         <LoginForm />
       ) : (
