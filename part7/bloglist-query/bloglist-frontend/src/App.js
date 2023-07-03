@@ -4,6 +4,7 @@ import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
+import NotificationContext from './NotificationContext'
 
 
 const App = () => {
@@ -61,31 +62,33 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h1>Blog</h1>
-      {!user ? (
-        <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} errorMessage={errorMessage} />
-      ) : (
-        <div>
-          <p>hello, {user && user.username} 👋</p>
-          <button onClick={handleLogout}>logout</button>
-          <Togglable buttonLabel='Create New Blog'ref={blogFormRef}>
-            <BlogForm blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} blogFormRef={blogFormRef} />
-          </Togglable>
-          <h2>blogs</h2>
-          {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              handleLikeBlog={handleLikeBlog}
-              handleDeleteBlog={handleDeleteBlog}
-              currentUser={user ? user.username : null}
-            />
-          ))}
+    <NotificationContext.Provider value={{ errorMessage, setErrorMessage }}>
+      <div>
+        <h1>Blog</h1>
+        {!user ? (
+          <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} errorMessage={errorMessage} />
+        ) : (
+          <div>
+            <p>hello, {user && user.username} 👋</p>
+            <button onClick={handleLogout}>logout</button>
+            <Togglable buttonLabel='Create New Blog'ref={blogFormRef}>
+              <BlogForm blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} blogFormRef={blogFormRef} />
+            </Togglable>
+            <h2>blogs</h2>
+            {[...blogs].sort((a, b) => (b.likes || 0) - (a.likes || 0)).map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleLikeBlog={handleLikeBlog}
+                handleDeleteBlog={handleDeleteBlog}
+                currentUser={user ? user.username : null}
+              />
+            ))}
 
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+      </div>
+    </NotificationContext.Provider>
   )
 }
 
