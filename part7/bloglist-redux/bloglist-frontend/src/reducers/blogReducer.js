@@ -51,15 +51,15 @@ export const deleteBlog = (blog) => {
 export const likeBlog = (blog) => {
   return async dispatch => {
     try {
-      console.log(blog)
-      const updatedBlog = await blogService.update(blog.id, { likes: blog.likes + 1 })
-      console.log(updateBlog)
-      dispatch(updateBlog(updatedBlog))
+      await blogService.update(blog.id, { likes: blog.likes + 1 })
+      const mergedBlog = { ...blog, likes: blog.likes + 1 }
+      dispatch(updateBlog(mergedBlog))
     } catch (error) {
       console.error(error)
     }
   }
 }
+
 
 
 export const initializeBlogs = () => {
