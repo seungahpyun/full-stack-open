@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
-import  { useNotification } from './NotificationContext'
 import Notification from './components/Notification'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
+import { useUser } from './UserContext'
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  const { user, dispatch } = useUser()
   const blogFormRef = useRef()
-  const queryClient = useQueryClient()
-
-  const { setNotification } = useNotification()
 
   const fetchBlogs = () => blogService.getAll()
   const { data: blogs, isSuccess } = useQuery('blogs', fetchBlogs)
@@ -22,34 +19,14 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch({ type: 'SET_USER', data: user })
       blogService.setToken(user.token)
     }
   }, [])
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
-  }
-
-  const handleLikeBlog = async (blog) => {
-    const currentLikes = blog.likes || 0
-    const updatedBlog = { ...blog, likes: currentLikes + 1 }
-
-    try {
-      await blogService.update(blog.id, updatedBlog)
-      setNotification(`Blog ${updatedBlog.title} was liked!`)
-      queryClient.invalidateQueries('blogs')
-    } catch (error) {
-      setNotification('An error occurred while updating the blog', 'error')
-    }
-  }
-
-  const handleDeleteBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      await blogService.remove(blog.id)
-      queryClient.invalidateQueries('blogs')
-    }
+    window.localStorage.clear()
+    dispatch({ type: 'CLEAR_USER' })
   }
 
   return (
@@ -57,7 +34,7 @@ const App = () => {
       <h1>Blog</h1>
       <Notification />
       {!user ? (
-        <LoginForm setUser={setUser} />
+        <LoginForm />
       ) : (
         <div>
           <p>hello, {user && user.username} 👋</p>
@@ -72,8 +49,6 @@ const App = () => {
                 <Blog
                   key={blog.id}
                   blog={blog}
-                  handleLikeBlog={handleLikeBlog}
-                  handleDeleteBlog={handleDeleteBlog}
                   currentUser={user ? user.username : null}
                 />
               ))}

@@ -1,16 +1,19 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import App from './App'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { NotificationProvider } from './NotificationContext'
-// import { UserContextProvider } from './userContext'
+import { UserProvider } from './UserContext'
 
 const queryClient = new QueryClient()
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <NotificationProvider>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </NotificationProvider>
+ReactDOM.render(
+  <UserProvider>
+    <NotificationProvider>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </NotificationProvider>
+  </UserProvider>,
+  document.getElementById('root')
 )
