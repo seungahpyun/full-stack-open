@@ -1,11 +1,11 @@
 import { React, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { logoutUser } from './reducers/loginReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import Nodification from './components/Notification'
+import UserInfo from './components/UserInfo'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -25,7 +25,8 @@ const App = () => {
       ) : (
         <div>
           <p>hello, {user && user.username} 👋</p>
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
+          <p>{user && user.username} logged in</p>
+          <UserInfo />
           <BlogList />
         </div>
       )}

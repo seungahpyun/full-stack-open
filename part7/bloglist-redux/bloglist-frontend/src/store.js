@@ -9,6 +9,6 @@ export default configureStore({
     notification: notificationReducer,
     blogs: blogReducer,
     login: loginReducer,
-    user: useReducer,
+    users: useReducer,
   },
 })
