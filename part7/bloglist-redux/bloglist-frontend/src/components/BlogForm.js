@@ -1,8 +1,8 @@
 import React from 'react'
 import blogService from '../services/blogs'
-import blogReducer from '../reducers/blogReducer'
+import { addBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
-import notificationReducer from '../reducers/notificationReducer'
+import { showNotification }  from '../reducers/notificationReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -18,8 +18,8 @@ const BlogForm = () => {
     event.target.author.value = ''
     event.target.url.value = ''
     const newBlog = await blogService.create({ title, author, url })
-    dispatch(blogReducer.appendBlog(newBlog))
-    dispatch(notificationReducer.setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
+    dispatch(addBlog(newBlog))
+    dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
   }
 
   return (

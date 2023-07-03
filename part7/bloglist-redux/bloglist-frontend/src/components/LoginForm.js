@@ -1,7 +1,5 @@
 import React from 'react'
-// import blogService from '../services/blogs'
 import Notification from './Notification'
-// import loginService from '../services/login'
 import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from '../reducers/blogReducer'
