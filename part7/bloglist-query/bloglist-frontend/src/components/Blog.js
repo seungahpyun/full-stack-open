@@ -5,8 +5,8 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog, currentUser }) => {
   const [isCreator, setIsCreator] = useState(false)
 
   useEffect(() => {
-    setIsCreator(blog.user && blog.user.id === currentUser.id)
-  }, [blog.user, currentUser.id])
+    setIsCreator(blog.user && blog.user.username === currentUser)
+  }, [blog.user, currentUser])
 
   const toggleExpanded = () => {
     setExpanded(!expanded)
@@ -41,7 +41,7 @@ const Blog = ({ blog, handleLikeBlog, handleDeleteBlog, currentUser }) => {
           <div data-testid='blog-author'>{blog.author}</div>
         </div>
       )}
-      {isCreator && expanded && ( // Render the delete button only if the current user is the creator and the blog is expanded
+      {isCreator && expanded && (
         <button id='delete-button' onClick={() => handleDeleteBlog(blog)}>
           delete
         </button>
