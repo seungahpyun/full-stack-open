@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import BlogComment  from './BlogComment'
 
-const Blog = ({ blog }) => {
+const Blog = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.login)
+  const { id } = useParams()
+  const blog = useSelector(state => state.blogs.find(b => b.id === id))
 
   useEffect(() => {
     if (blog) {
@@ -25,22 +29,27 @@ const Blog = ({ blog }) => {
     }
   }
 
+  if (!blog) {
+    return null
+  }
+
   return (
     <div>
-      <h2>{blog.title} {blog.author}</h2>
       <div>
         <a href={blog.url}>{blog.url}</a>
       </div>
       <div>
         {blog.likes} likes
         <button onClick={handleLike}>like</button>
-        {blog.user && blog.user.username === user.username && (
+        {blog.user?.username === user?.username && (
           <button onClick={handleDelete}>remove</button>
         )}
       </div>
       <div>
-        added by {blog.user && blog.user.name}
+        added by {blog.user?.username}
       </div>
+      <h3>comments</h3>
+      <BlogComment blog={blog} />
     </div>
   )
 }
