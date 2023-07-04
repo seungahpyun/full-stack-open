@@ -5,8 +5,11 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import Nodification from './components/Notification'
-import UserInfo from './components/UserInfo'
+import Users from './components/Users'
+import User from './components/User'
 import { logoutUser } from './reducers/loginReducer'
+import { Link, Route, Routes } from 'react-router-dom'
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -17,6 +20,17 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
+  const Home = () => (
+    <div>
+      <h2>Blog App</h2>
+      <p>hello, {user && user.username} 👋</p>
+      <p>{user && user.username} logged in</p>
+      <button onClick={() => dispatch(logoutUser())}>logout</button>
+      <Users />
+      <BlogList />
+    </div>
+  )
+
   return (
     <div>
       <h1>Blog</h1>
@@ -25,14 +39,21 @@ const App = () => {
         <LoginForm />
       ) : (
         <div>
-          <p>hello, {user && user.username} 👋</p>
-          <p>{user && user.username} logged in</p>
-          <button onClick={() => dispatch(logoutUser())}>logout</button>
-          <UserInfo />
-          <BlogList />
+          <div>
+            <Link to="/">home</Link>
+            <Link to="/users">users</Link>
+
+          </div>
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User/>} />
+          </Routes>
         </div>
       )}
     </div>
+
   )
 }
 
