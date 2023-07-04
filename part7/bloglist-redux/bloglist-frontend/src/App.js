@@ -8,7 +8,6 @@ import Nodification from './components/Notification'
 import UserInfo from './components/UserInfo'
 import { logoutUser } from './reducers/loginReducer'
 
-
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.login)
