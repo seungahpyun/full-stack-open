@@ -9,6 +9,8 @@ import Users from './components/Users'
 import User from './components/User'
 import { logoutUser } from './reducers/loginReducer'
 import { Link, Route, Routes } from 'react-router-dom'
+import Blog from './components/Blog'
+
 
 
 const App = () => {
@@ -42,14 +44,18 @@ const App = () => {
           <div>
             <Link to="/">home</Link>
             <Link to="/users">users</Link>
-
+            <Link to="/users/:id">user</Link>
+            <Link to="/blogs">blogs</Link>
           </div>
 
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/users" element={<Users />} />
             <Route path="/users/:id" element={<User/>} />
+            <Route path="/blogs" element={<BlogList />} />
+            <Route path="/blogs/:id" element={<Blog />} />
           </Routes>
+
         </div>
       )}
     </div>

@@ -1,19 +1,16 @@
 import { useSelector } from 'react-redux'
-import BlogForm from './BlogForm'
-import Blog from './Blog'
-import Togglable from './Togglable'
-
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
 
   return (
     <div>
-      <Togglable buttonLabel='create new blog'>
-        <BlogForm />
-      </Togglable>
-      {[...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      <h2>Blogs</h2>
+      { [...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
+        <div key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        </div>
       )}
     </div>
   )
