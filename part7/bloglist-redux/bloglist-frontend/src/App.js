@@ -20,34 +20,22 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
-  const Home = () => (
-    <div>
-      <h2>Blog App</h2>
-      <p>hello, {user && user.username} 👋</p>
-      <p>{user && user.username} logged in</p>
-      <button onClick={() => dispatch(logoutUser())}>logout</button>
-      <Users />
-      <BlogList />
-    </div>
-  )
-
   return (
     <div>
       <h1>Blog</h1>
       <Notification />
       {user && (
         <div>
-          <Link to="/">home</Link>
+          <Link to="/">blogs</Link>
           <Link to="/users">users</Link>
-          <Link to="/blogs">blogs</Link>
+          <p>{user && user.username} logged in <button onClick={() => dispatch(logoutUser())}>logout</button></p>
         </div>
       )}
       <Routes>
-        <Route path='/' element={user ? <Home /> : <LoginForm />} />
+        <Route path='/' element={user ? <BlogList />: <LoginForm />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User/>} />
-        <Route path="/blogs" element={<BlogList />} />
         <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
     </div>
