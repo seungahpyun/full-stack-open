@@ -9,11 +9,16 @@ mongoose.connect(config.MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
+const commentSchema = new mongoose.Schema({
+  content: String
+})
+
 const blogSchema = new mongoose.Schema({
   title: String,
   author: String,
   url: String,
   likes: Number,
+  comments: [commentSchema],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

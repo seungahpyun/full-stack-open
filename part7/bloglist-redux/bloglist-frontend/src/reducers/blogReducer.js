@@ -59,6 +59,18 @@ export const likeBlog = (blog) => {
   }
 }
 
+export const addComment = (blog, comment) => {
+  return async dispatch => {
+    try {
+      const updatedBlog = await blogService.comment(blog.id, { comment })
+      dispatch(updateBlog(updatedBlog))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+
 export const initializeBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
