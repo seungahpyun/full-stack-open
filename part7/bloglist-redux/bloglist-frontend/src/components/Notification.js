@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux'
-import { Alert } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const StyledAlert = styled(Alert)`
+const StyledAlert = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: auto;
@@ -15,6 +14,7 @@ const StyledAlert = styled(Alert)`
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
+
 
   if (notification === null) {
     return null

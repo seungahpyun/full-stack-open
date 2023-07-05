@@ -2,10 +2,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import BlogCommentForm from './BlogCommentForm'
-import { ListGroup } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const StyledListGroup = styled(ListGroup)`
+const StyledListGroup = styled.div`
   width: 60%;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -30,9 +29,9 @@ const BlogComment = ({ blog }) => {
   return (
     <div>
       <BlogCommentForm blog={blog} />
-      <StyledListGroup variant="flush">
+      <StyledListGroup>
         {comments.map(comment =>
-          <ListGroup.Item key={comment._id}>{comment.content}</ListGroup.Item>
+          <div key={comment._id}>{comment.content}</div>
         )}
       </StyledListGroup>
     </div>

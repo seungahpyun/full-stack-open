@@ -1,10 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Table } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const StyledTable = styled(Table)`
+const StyledTable = styled.table`
   width: 50%;
   margin-top: 1rem;
   margin-bottom: 1rem;

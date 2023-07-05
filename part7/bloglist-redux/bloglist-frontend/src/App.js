@@ -13,9 +13,9 @@ import Users from './components/Users'
 import User from './components/User'
 import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
-import { Container } from 'react-bootstrap'
 
-const StyledContainer = styled(Container)`
+
+const StyledContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: auto;

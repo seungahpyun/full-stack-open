@@ -4,10 +4,9 @@ import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import BlogComment  from './BlogComment'
-import { Container, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const StyledContainer = styled(Container)`
+const StyledContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: auto;
@@ -16,7 +15,7 @@ const StyledContainer = styled(Container)`
   width: 100%;
 `
 
-const StyledButton = styled(Button)`
+const StyledButton = styled.button`
   margin-left: 0.5rem;
 `
 
@@ -58,9 +57,9 @@ const Blog = () => {
         </div>
         <div>
           {blog.likes} likes
-          <StyledButton hover onClick={handleLike}>like</StyledButton>
+          <StyledButton onClick={handleLike}>like</StyledButton>
           {blog.user?.username === user?.username && (
-            <StyledButton hover onClick={handleDelete}>remove</StyledButton>
+            <StyledButton onClick={handleDelete}>remove</StyledButton>
           )}
         </div>
         <div>
