@@ -30,8 +30,12 @@ const BlogComment = ({ blog }) => {
     <div>
       <BlogCommentForm blog={blog} />
       <StyledListGroup>
-        {comments.map(comment =>
-          <div key={comment._id}>{comment.content}</div>
+        {comments.length === 0 ? (
+          <div>There is no comments yet.</div>
+        ) : (
+          comments.map(comment => (
+            <div key={comment._id}>{comment.content}</div>
+          ))
         )}
       </StyledListGroup>
     </div>

@@ -33,7 +33,6 @@ const StyledNav = styled.nav`
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-
 `
 
 const StyledLink = styled(Link)`
@@ -42,7 +41,7 @@ const StyledLink = styled(Link)`
   color: black;
 `
 
-const StyledTitle = styled.h2`
+const StyledTitle = styled.h1`
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
@@ -71,10 +70,10 @@ const App = () => {
       <StyledContainer>
         {user && (
           <div>
-            <div>
-              <StyledTitle>Bloglist</StyledTitle>
-            </div>
             <StyledNav>
+              <div>
+                <StyledTitle>Bloglist</StyledTitle>
+              </div>
               <div>
                 <div>
                   <StyledLink to="/">Bloglist</StyledLink>

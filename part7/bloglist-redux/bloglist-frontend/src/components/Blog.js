@@ -12,14 +12,27 @@ const StyledContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
-  width: 100%;
+  width: 50%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `
+const StyledBlog = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 50%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`
+
 
 const StyledButton = styled.button`
   margin-left: 0.5rem;
 `
-
-
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -52,19 +65,21 @@ const Blog = () => {
   return (
     <div>
       <StyledContainer>
-        <div>
-          <a href={blog.url}>{blog.url}</a>
-        </div>
-        <div>
-          {blog.likes} likes
+        <StyledBlog>
+          <div>
+            Blog url : <a href={blog.url}>{blog.url}</a>
+          </div>
+          <div>
+            {blog.likes} likes
+          </div>
+          <div>
+            added by {blog.user?.username}
+          </div>
           <StyledButton onClick={handleLike}>like</StyledButton>
           {blog.user?.username === user?.username && (
             <StyledButton onClick={handleDelete}>remove</StyledButton>
           )}
-        </div>
-        <div>
-          added by {blog.user?.username}
-        </div>
+        </StyledBlog>
         <BlogComment blog={blog} />
       </StyledContainer>
     </div>
