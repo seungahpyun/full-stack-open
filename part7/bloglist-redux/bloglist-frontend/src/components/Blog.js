@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { showNotification } from '../reducers/notificationReducer'
 import BlogComment  from './BlogComment'
 
 const Blog = () => {
@@ -19,13 +19,13 @@ const Blog = () => {
 
   const handleLike = async () => {
     dispatch(likeBlog(blog))
-    dispatch(setNotification(`you liked ${blog.title}`, 5))
+    dispatch(showNotification(`you liked ${blog.title}`, 3))
   }
 
   const handleDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       dispatch(deleteBlog(blog))
-      dispatch(setNotification(`you deleted ${blog.title}`, 5))
+      dispatch(showNotification(`you deleted ${blog.title}`, 3))
     }
   }
 

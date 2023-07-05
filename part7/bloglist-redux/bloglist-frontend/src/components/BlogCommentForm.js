@@ -22,9 +22,6 @@ const StyledButton = styled(Button)`
 
 
 
-
-
-
 const BlogCommentForm = ({ blog }) => {
   const dispatch = useDispatch()
 
@@ -35,7 +32,7 @@ const BlogCommentForm = ({ blog }) => {
 
     event.target.comment.value = ''
     dispatch(addComment(blog, comment))
-    dispatch(showNotification(`you commented ${comment}`, 5))
+    dispatch(showNotification(`you commented ${comment}`, 3))
   }
 
   return (
