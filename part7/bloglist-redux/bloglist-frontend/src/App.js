@@ -21,7 +21,8 @@ const StyledContainer = styled(Container)`
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
-  background-color: #f7f9fa;
+  width: 100%;
+
 `
 
 const StyledNav = styled.nav`
@@ -29,6 +30,10 @@ const StyledNav = styled.nav`
   justify-content: space-between;
   padding: 1rem;
   background-color: #f7f9fa;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+
 `
 
 const StyledLink = styled(Link)`

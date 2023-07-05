@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 const StyledContainer = styled(Container)`
   margin-top: 5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
@@ -15,9 +15,9 @@ const StyledContainer = styled(Container)`
 `
 
 const StyledForm = styled(Form)`
-  width: 50%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  width: 60%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
