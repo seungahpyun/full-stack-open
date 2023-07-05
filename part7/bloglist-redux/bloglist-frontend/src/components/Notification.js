@@ -9,11 +9,9 @@ const Notification = () => {
   }
 
   return (
-    <div>
-      <Alert variant="success">
-        {notification}
-      </Alert>
-    </div>
+    <Alert variant="success" className="text-center mt-3">
+      {notification}
+    </Alert>
   )
 }
 

@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addComment } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
+import { Form, Button } from 'react-bootstrap'
+
 
 const BlogCommentForm = ({ blog }) => {
   const dispatch = useDispatch()
@@ -19,15 +21,15 @@ const BlogCommentForm = ({ blog }) => {
   return (
     <div>
       <h2>Comments</h2>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div>
           <input
             type='text'
             id='comment'
           />
-          <button id='create-comment-button' type="submit">add comment</button>
+          <Button id='create-comment-button' type="submit">add comment</Button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }

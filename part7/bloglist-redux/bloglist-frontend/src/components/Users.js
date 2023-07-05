@@ -2,6 +2,20 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const StyledTable = styled(Table)`
+  width: 50%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background-color: #f7f9fa;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  `
 
 const Users = () => {
   const userlist = useSelector(state => state.users)
@@ -19,7 +33,7 @@ const Users = () => {
   return (
     <div>
       <h2>Users</h2>
-      <Table striped>
+      <StyledTable striped bordered hover>
         <thead>
           <tr>
             <th></th>
@@ -36,7 +50,7 @@ const Users = () => {
             </tr>
           ))}
         </tbody>
-      </Table>
+      </StyledTable>
     </div>
   )
 }

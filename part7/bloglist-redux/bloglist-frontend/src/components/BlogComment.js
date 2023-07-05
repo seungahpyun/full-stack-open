@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import BlogCommentForm from './BlogCommentForm'
+import { ListGroup } from 'react-bootstrap'
 
 const selectComments = createSelector(
   state => state.blogs,
@@ -15,11 +16,11 @@ const BlogComment = ({ blog }) => {
   return (
     <div>
       <BlogCommentForm blog={blog} />
-      <ul>
+      <ListGroup variant="flush">
         {comments.map(comment =>
-          <li key={comment._id}>{comment.content}</li>
+          <ListGroup.Item key={comment._id}>{comment.content}</ListGroup.Item>
         )}
-      </ul>
+      </ListGroup>
     </div>
   )
 }
