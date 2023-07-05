@@ -6,7 +6,7 @@ import { Form, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const StyledForm = styled(Form)`
-  width: 50%;
+  width: 37%;
   margin-top: 1rem;
   margin-bottom: 1rem;
   margin-left: auto;
@@ -44,7 +44,7 @@ const BlogCommentForm = ({ blog }) => {
             type='text'
             id='comment'
           />
-          <StyledButton id='create-comment-button' type="submit">add comment</StyledButton>
+          <StyledButton hover id='create-comment-button' type="submit">add comment</StyledButton>
         </div>
       </StyledForm>
     </div>

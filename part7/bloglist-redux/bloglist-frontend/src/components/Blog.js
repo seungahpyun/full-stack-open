@@ -4,6 +4,23 @@ import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import BlogComment  from './BlogComment'
+import { Container, Button } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const StyledContainer = styled(Container)`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
+`
+
+const StyledButton = styled(Button)`
+  margin-left: 0.5rem;
+`
+
+
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -35,21 +52,22 @@ const Blog = () => {
 
   return (
     <div>
-      <div>
-        <a href={blog.url}>{blog.url}</a>
-      </div>
-      <div>
-        {blog.likes} likes
-        <button onClick={handleLike}>like</button>
-        {blog.user?.username === user?.username && (
-          <button onClick={handleDelete}>remove</button>
-        )}
-      </div>
-      <div>
-        added by {blog.user?.username}
-      </div>
-      <h3>comments</h3>
-      <BlogComment blog={blog} />
+      <StyledContainer>
+        <div>
+          <a href={blog.url}>{blog.url}</a>
+        </div>
+        <div>
+          {blog.likes} likes
+          <StyledButton hover onClick={handleLike}>like</StyledButton>
+          {blog.user?.username === user?.username && (
+            <StyledButton hover onClick={handleDelete}>remove</StyledButton>
+          )}
+        </div>
+        <div>
+          added by {blog.user?.username}
+        </div>
+        <BlogComment blog={blog} />
+      </StyledContainer>
     </div>
   )
 }

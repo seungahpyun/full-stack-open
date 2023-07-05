@@ -43,11 +43,18 @@ const StyledLink = styled(Link)`
 `
 
 const StyledTitle = styled.h2`
-  margin: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
 `
 
 const StyledButton = styled.button`
-  margin-left: 1rem;
+  margin-left: 1rem
+  padding: 0.5rem;
+  &:hover {
+    background-color: #23272b;
+  }
 `
 
 const App = () => {
@@ -63,21 +70,23 @@ const App = () => {
     <div className="container">
       <StyledContainer>
         {user && (
-          <StyledNav>
+          <div>
             <div>
               <StyledTitle>Bloglist</StyledTitle>
             </div>
-            <div>
+            <StyledNav>
               <div>
-                <StyledLink to="/">Bloglist</StyledLink>
-                <StyledLink to="/users">Users</StyledLink>
+                <div>
+                  <StyledLink to="/">Bloglist</StyledLink>
+                  <StyledLink to="/users">Users</StyledLink>
+                </div>
+                <div>
+                  <span>{`${user.username} logged in`}</span>
+                  <StyledButton onClick={() => dispatch(logoutUser())}>Logout</StyledButton>
+                </div>
               </div>
-              <div>
-                <span>{`${user.username} logged in`}</span>
-                <StyledButton onClick={() => dispatch(logoutUser())}>Logout</StyledButton>
-              </div>
-            </div>
-          </StyledNav>
+            </StyledNav>
+          </div>
         )}
         <Notification />
 

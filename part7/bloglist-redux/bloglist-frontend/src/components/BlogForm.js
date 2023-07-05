@@ -61,7 +61,7 @@ const BlogForm = () => {
             id='url'
           />
         </div>
-        <Button id='create-blog-button' type="submit">create</Button>
+        <Button hover id='create-blog-button' type="submit">create</Button>
       </StyledForm>
     </div>
   )

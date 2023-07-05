@@ -27,7 +27,7 @@ const BlogList = () => {
 
   return (
     <div>
-      <Button onClick={toggleForm} id='create-cancel-button'>
+      <Button hover onClick={toggleForm} id='create-cancel-button'>
         {showForm ? 'Cancel' : 'Create New'}
       </Button>
       {showForm && <BlogForm />}
