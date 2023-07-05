@@ -10,6 +10,7 @@ import User from './components/User'
 import { logoutUser } from './reducers/loginReducer'
 import { Link, Route, Routes } from 'react-router-dom'
 import Blog from './components/Blog'
+import { Navbar, Nav } from 'react-bootstrap'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -21,16 +22,25 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div>
+    <div className="container">
+      {user && (
+        <Navbar>
+          <Navbar.Brand as={Link} to="/">Bloglist</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link as={Link} to="/">blogs</Nav.Link>
+              <Nav.Link as={Link} to="/users">users</Nav.Link>
+            </Nav>
+            <Nav className="ml-auto">
+              <span className="navbar-text">{`${user.username} logged in `}</span>
+              <button className="btn btn-link nav-link" onClick={() => dispatch(logoutUser())}>logout</button>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      )}
       <h1>Blog</h1>
       <Notification />
-      {user && (
-        <div>
-          <Link to="/">blogs</Link>
-          <Link to="/users">users</Link>
-          <p>{user && user.username} logged in <button onClick={() => dispatch(logoutUser())}>logout</button></p>
-        </div>
-      )}
       <Routes>
         <Route path='/' element={user ? <BlogList />: <LoginForm />} />
         <Route path='/login' element={<LoginForm />} />

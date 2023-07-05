@@ -3,6 +3,7 @@ import Notification from './Notification'
 import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from '../reducers/blogReducer'
+import { Form, Button } from 'react-bootstrap'
 
 
 const LoginForm = () => {
@@ -19,7 +20,7 @@ const LoginForm = () => {
   return(
     <div>
       <Notification />
-      <form onSubmit={handleLogin}>
+      <Form onSubmit={handleLogin}>
         <div>
           username
           <input
@@ -34,8 +35,8 @@ const LoginForm = () => {
             id='password'
           />
         </div>
-        <button type='submit' id='login-button'>login</button>
-      </form>
+        <Button type='submit' id='login-button'>login</Button>
+      </Form>
     </div>
   )
 }
