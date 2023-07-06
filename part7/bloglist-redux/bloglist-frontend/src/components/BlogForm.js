@@ -3,10 +3,13 @@ import blogService from '../services/blogs'
 import { addBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { showNotification }  from '../reducers/notificationReducer'
-import { StyledButton, StyledForm } from './StyledComponents'
+import { StyledBlogFormContainer, StyledBlogForm, StyledButton } from './StyledComponents'
+import { useNavigate } from 'react-router-dom'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -21,36 +24,37 @@ const BlogForm = () => {
     const newBlog = await blogService.create({ title, author, url })
     dispatch(addBlog(newBlog))
     dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
+    navigate('/')
   }
 
   return (
-    <div>
-      <StyledForm onSubmit={handleSubmit}>
+    <StyledBlogFormContainer>
+      <StyledBlogForm onSubmit={handleSubmit}>
         <h2>Create new</h2>
         <div>
-            title:
           <input
             type='text'
             id='title'
+            placeholder='title'
           />
         </div>
         <div>
-            author:
           <input
             type='text'
             id='author'
+            placeholder='author'
           />
         </div>
         <div>
-            url:
           <input
             type='text'
             id='url'
+            placeholder='url'
           />
         </div>
         <StyledButton id='create-blog-button' type="submit">create</StyledButton>
-      </StyledForm>
-    </div>
+      </StyledBlogForm>
+    </StyledBlogFormContainer>
   )
 }
 

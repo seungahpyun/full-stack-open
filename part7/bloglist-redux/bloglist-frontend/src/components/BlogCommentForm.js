@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addComment } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
-import { StyledButton, StyledForm } from './StyledComponents'
+import { StyledButton, StyledBlogCommentForm } from './StyledComponents'
 
 const BlogCommentForm = ({ blog }) => {
   const dispatch = useDispatch()
@@ -19,16 +19,14 @@ const BlogCommentForm = ({ blog }) => {
 
   return (
     <div>
-      <h2>Comments</h2>
-      <StyledForm onSubmit={handleSubmit}>
-        <div>
-          <input
-            type='text'
-            id='comment'
-          />
-          <StyledButton id='create-comment-button' type="submit">add comment</StyledButton>
-        </div>
-      </StyledForm>
+      <StyledBlogCommentForm onSubmit={handleSubmit}>
+        <input
+          type='text'
+          id='comment'
+          placeholder='comment...'
+        />
+        <StyledButton id='create-comment-button' type="submit">add</StyledButton>
+      </StyledBlogCommentForm>
     </div>
   )
 }

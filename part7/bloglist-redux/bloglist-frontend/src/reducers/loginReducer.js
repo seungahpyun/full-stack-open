@@ -20,15 +20,15 @@ export const loginUser = (username, password) => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       dispatch(setLogin(user))
-      dispatch(showNotification(`Welcome ${user.name}`, 'success', 5))
+      dispatch(showNotification(`Welcome ${user.name}`, 'success', 3))
       blogService.setToken(user.token)
     }
     catch (exception) {
       console.error('Login error:', exception)
       if (exception.response && exception.response.data) {
-        dispatch(showNotification(exception.response.data.error, 'error', 5))
+        dispatch(showNotification(exception.response.data.error, 'error', 3))
       } else {
-        dispatch(showNotification('Error occurred during login', 'error', 5))
+        dispatch(showNotification('Error occurred during login', 'error', 3))
       }
     }
   }

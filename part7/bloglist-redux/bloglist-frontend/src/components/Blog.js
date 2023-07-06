@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
-import BlogComment  from './BlogComment'
-import { StyledContainer, StyledBlog, StyledButtonGroup, StyledButton } from './StyledComponents'
+import BlogCommentForm from './BlogCommentForm'
+import BlogComment from './BlogComment'
+import { StyledBlogContainer, StyledBlog, StyledButtonGroup, StyledButton } from './StyledComponents'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -35,34 +36,33 @@ const Blog = () => {
   }
 
   return (
-    <div>
-      <StyledContainer>
-        <StyledBlog>
-          <div>
-            Blog Title : {blog.title}
-          </div>
-          <div>
-            Blog Author : {blog.author}
-          </div>
-          <div>
-            Blog url : <a href={blog.url}>{blog.url}</a>
-          </div>
-          <div>
-            Total likes : {blog.likes} likes
-          </div>
-        </StyledBlog>
+    <StyledBlogContainer>
+      <StyledBlog>
         <div>
-            Blog added by {blog.user?.username}
+          Blog Title : {blog.title}
         </div>
-        <StyledButtonGroup>
-          <StyledButton onClick={handleLike}>like</StyledButton>
-          {blog.user?.username === user?.username && (
-            <StyledButton onClick={handleDelete}>remove</StyledButton>
-          )}
-        </StyledButtonGroup>
-        <BlogComment blog={blog} />
-      </StyledContainer>
-    </div>
+        <div>
+          Blog Author : {blog.author}
+        </div>
+        <div>
+          Blog url : <a href={blog.url}>{blog.url}</a>
+        </div>
+        <div>
+          Total likes : {blog.likes} likes
+        </div>
+      </StyledBlog>
+      <div>
+          Blog added by {blog.user?.username}
+      </div>
+      <StyledButtonGroup>
+        <BlogCommentForm blog={blog} />
+        <StyledButton onClick={handleLike}>like</StyledButton>
+        {blog.user?.username === user?.username && (
+          <StyledButton onClick={handleDelete}>remove</StyledButton>
+        )}
+      </StyledButtonGroup>
+      <BlogComment blog={blog} />
+    </StyledBlogContainer>
   )
 }
 

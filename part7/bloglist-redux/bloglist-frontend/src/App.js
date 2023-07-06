@@ -12,11 +12,12 @@ import Users from './components/Users'
 import User from './components/User'
 import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
-import { StyledButton, StyledContainer, StyledLink, StyledNav, StyledTitle } from './components/StyledComponents'
+import { StyledButton, StyledContainer, StyledHeader, StyledHeaderLink, StyledLink, StyledNav } from './components/StyledComponents'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.login)
+  const user = useSelector((state) => state.login)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -24,18 +25,19 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div className="container">
-      <StyledContainer>
+    <StyledContainer>
+      <StyledHeader>
         {user && (
           <div>
+            <StyledHeaderLink to='/'>Bloglist</StyledHeaderLink>
             <StyledNav>
               <div>
-                <StyledTitle>Bloglist</StyledTitle>
-              </div>
-              <div>
-                <div>
-                  <StyledLink to="/">Bloglist</StyledLink>
-                  <StyledLink to="/users">Users</StyledLink>
+                <div className="dropdown">
+                  <span>Menu</span>
+                  <div className="dropdown-content">
+                    <StyledLink to="/users">Users</StyledLink>
+                    <StyledLink to="/create">Create</StyledLink>
+                  </div>
                 </div>
                 <div>
                   <span>{`${user.username} logged in`}</span>
@@ -45,17 +47,17 @@ const App = () => {
             </StyledNav>
           </div>
         )}
-        <Notification />
-
-        <Routes>
-          <Route path='/' element={user ? <BlogList />: <LoginForm />} />
-          <Route path='/login' element={<LoginForm />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:id" element={<User/>} />
-          <Route path="/blogs/:id" element={<Blog />} />
-        </Routes>
-      </StyledContainer>
-    </div>
+      </StyledHeader>
+      <Notification />
+      <Routes>
+        <Route path="/" element={user ? <BlogList /> : <LoginForm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/create" element={<BlogForm />} />
+        <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<Blog />} />
+      </Routes>
+    </StyledContainer>
   )
 }
 
