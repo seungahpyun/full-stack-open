@@ -38,21 +38,44 @@ export const StyledNav = styled.nav`
   .dropdown {
     position: relative;
     display: inline-block;
-  }
+    text-align: center;
 
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
 
-  .dropdown:hover .dropdown-content {
-    display: block;
+    span {
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+
+    hr {
+      solid #f7f9fa;
+      margin: 0.5rem 0;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 140px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      top: 100%;
+      z-index: 1;
+      padding: 12px 16px;
+      border-radius: 0.25rem;
+
+      a {
+        color: black;
+        text-decoration: none;
+        display: block;
+        align-items: start;
+      }
+    }
+
+    &:hover .dropdown-content {
+      display: block;
+    }
   }
 `
+
 
 export const StyledLink = styled(Link)`
 margin-right: 1rem;

@@ -35,13 +35,14 @@ const App = () => {
                 <div className="dropdown">
                   <span>Menu</span>
                   <div className="dropdown-content">
+                    <p>{user.username}</p>
+                    <hr />
+                    <StyledLink to="/">Blogs</StyledLink>
                     <StyledLink to="/users">Users</StyledLink>
                     <StyledLink to="/create">Create</StyledLink>
+                    <hr />
+                    <StyledButton onClick={() => dispatch(logoutUser())}>Logout</StyledButton>
                   </div>
-                </div>
-                <div>
-                  <span>{`${user.username} logged in`}</span>
-                  <StyledButton onClick={() => dispatch(logoutUser())}>Logout</StyledButton>
                 </div>
               </div>
             </StyledNav>
