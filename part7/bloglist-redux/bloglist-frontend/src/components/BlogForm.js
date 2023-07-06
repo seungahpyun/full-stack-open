@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import { addBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { showNotification }  from '../reducers/notificationReducer'
-import { StyledBlogFormContainer, StyledBlogForm, StyledButton } from './StyledComponents'
+import { Container, Form, Button } from './StyledComponents'
 import { useNavigate } from 'react-router-dom'
 
 const BlogForm = () => {
@@ -28,8 +28,8 @@ const BlogForm = () => {
   }
 
   return (
-    <StyledBlogFormContainer>
-      <StyledBlogForm onSubmit={handleSubmit}>
+    <Container>
+      <Form onSubmit={handleSubmit}>
         <h2>Create new</h2>
         <div>
           <input
@@ -52,9 +52,9 @@ const BlogForm = () => {
             placeholder='url'
           />
         </div>
-        <StyledButton id='create-blog-button' type="submit">create</StyledButton>
-      </StyledBlogForm>
-    </StyledBlogFormContainer>
+        <Button id='create-blog-button' type="submit">create</Button>
+      </Form>
+    </Container>
   )
 }
 

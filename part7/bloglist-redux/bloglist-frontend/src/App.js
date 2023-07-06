@@ -12,7 +12,7 @@ import Users from './components/Users'
 import User from './components/User'
 import LoginForm from './components/LoginForm'
 import Blog from './components/Blog'
-import { StyledButton, StyledContainer, StyledHeader, StyledHeaderLink, StyledLink, StyledNav } from './components/StyledComponents'
+import { Button, Container, HeaderLink, LinkItem, Nav } from './components/StyledComponents'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
@@ -25,30 +25,28 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <StyledContainer>
-      <StyledHeader>
+    <Container>
+      <div>
         {user && (
-          <div>
-            <StyledHeaderLink to='/'>Bloglist</StyledHeaderLink>
-            <StyledNav>
-              <div>
-                <div className="dropdown">
-                  <span>Menu</span>
-                  <div className="dropdown-content">
-                    <p>{user.username}</p>
-                    <hr />
-                    <StyledLink to="/">Blogs</StyledLink>
-                    <StyledLink to="/users">Users</StyledLink>
-                    <StyledLink to="/create">Create</StyledLink>
-                    <hr />
-                    <StyledButton onClick={() => dispatch(logoutUser())}>Logout</StyledButton>
-                  </div>
+          <Nav>
+            <div>
+              <HeaderLink to='/'>Bloglist</HeaderLink>
+              <div className="dropdown">
+                <span>Menu</span>
+                <div className="dropdown-content">
+                  <p>{user.username}</p>
+                  <hr />
+                  <LinkItem to="/">Blogs</LinkItem>
+                  <LinkItem to="/users">Users</LinkItem>
+                  <LinkItem to="/create">Create</LinkItem>
+                  <hr />
+                  <Button onClick={() => dispatch(logoutUser())}>Logout</Button>
                 </div>
               </div>
-            </StyledNav>
-          </div>
+            </div>
+          </Nav>
         )}
-      </StyledHeader>
+      </div>
       <Notification />
       <Routes>
         <Route path="/" element={user ? <BlogList /> : <LoginForm />} />
@@ -58,7 +56,7 @@ const App = () => {
         <Route path="/users/:id" element={<User />} />
         <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
-    </StyledContainer>
+    </Container>
   )
 }
 

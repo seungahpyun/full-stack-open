@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { StyledContainer, StyledTable, StyledTh } from './StyledComponents'
+import { Container, Table, Th } from './StyledComponents'
 
 const Users = () => {
   const userlist = useSelector(state => state.users)
@@ -17,13 +17,13 @@ const Users = () => {
     : []
 
   return (
-    <StyledContainer>
+    <Container>
       <h2>Users</h2>
-      <StyledTable>
+      <Table>
         <thead>
           <tr>
-            <StyledTh></StyledTh>
-            <StyledTh>blogs created</StyledTh>
+            <Th></Th>
+            <Th>blogs created</Th>
           </tr>
         </thead>
         <tbody>
@@ -36,8 +36,8 @@ const Users = () => {
             </tr>
           ))}
         </tbody>
-      </StyledTable>
-    </StyledContainer>
+      </Table>
+    </Container>
   )
 }
 

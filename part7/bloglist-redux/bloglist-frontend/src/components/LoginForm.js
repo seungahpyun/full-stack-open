@@ -2,9 +2,8 @@ import React from 'react'
 import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from '../reducers/blogReducer'
-// import { showNotification } from '../reducers/notificationReducer'
 import Layout from './Layout'
-import { StyledLoginContainer,StyledButton, StyledLoginForm, StyledInput } from './StyledComponents'
+import { Container,Button, Form, Input } from './StyledComponents'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -23,24 +22,24 @@ const LoginForm = () => {
 
   return(
     <Layout>
-      <StyledLoginContainer>
+      <Container>
         <div className="justify-content-md-center">
           <h1 className="text-center">Bloglist</h1>
-          <StyledLoginForm onSubmit={handleLogin}>
-            <StyledInput
+          <Form onSubmit={handleLogin}>
+            <Input
               type='text'
               id='username'
               placeholder='username'
             />
-            <StyledInput
+            <Input
               type='password'
               id='password'
               placeholder='password'
             />
-            <StyledButton type='submit' id='login-button'>login</StyledButton>
-          </StyledLoginForm>
+            <Button type='submit' id='login-button'>login</Button>
+          </Form>
         </div>
-      </StyledLoginContainer>
+      </Container>
     </Layout>
   )
 }
