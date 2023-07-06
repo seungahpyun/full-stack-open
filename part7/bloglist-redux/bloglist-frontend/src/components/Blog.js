@@ -4,35 +4,7 @@ import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import BlogComment  from './BlogComment'
-import styled from 'styled-components'
-
-const StyledContainer = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
-  width: 50%;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-`
-const StyledBlog = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
-  width: 50%;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-`
-
-
-const StyledButton = styled.button`
-  margin-left: 0.5rem;
-`
+import { StyledContainer, StyledBlog, StyledButtonGroup, StyledButton } from './StyledComponents'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -67,19 +39,27 @@ const Blog = () => {
       <StyledContainer>
         <StyledBlog>
           <div>
+            Blog Title : {blog.title}
+          </div>
+          <div>
+            Blog Author : {blog.author}
+          </div>
+          <div>
             Blog url : <a href={blog.url}>{blog.url}</a>
           </div>
           <div>
-            {blog.likes} likes
+            Total likes : {blog.likes} likes
           </div>
-          <div>
-            added by {blog.user?.username}
-          </div>
+        </StyledBlog>
+        <div>
+            Blog added by {blog.user?.username}
+        </div>
+        <StyledButtonGroup>
           <StyledButton onClick={handleLike}>like</StyledButton>
           {blog.user?.username === user?.username && (
             <StyledButton onClick={handleDelete}>remove</StyledButton>
           )}
-        </StyledBlog>
+        </StyledButtonGroup>
         <BlogComment blog={blog} />
       </StyledContainer>
     </div>

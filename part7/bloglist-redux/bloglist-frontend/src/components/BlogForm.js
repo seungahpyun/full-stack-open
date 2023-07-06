@@ -3,22 +3,7 @@ import blogService from '../services/blogs'
 import { addBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { showNotification }  from '../reducers/notificationReducer'
-import styled from 'styled-components'
-
-const StyledForm = styled.form`
-  width: 50%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  background-color: #f7f9fa;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);`
-
-const Button = styled.button`
-  margin-left: 0.5rem;`
+import { StyledButton, StyledForm } from './StyledComponents'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -63,7 +48,7 @@ const BlogForm = () => {
             id='url'
           />
         </div>
-        <Button id='create-blog-button' type="submit">create</Button>
+        <StyledButton id='create-blog-button' type="submit">create</StyledButton>
       </StyledForm>
     </div>
   )
