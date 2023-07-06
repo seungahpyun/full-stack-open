@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
-margin-top: 1rem;
+margin-top: 3rem;
 margin-bottom: 1rem;
 margin-left: auto;
 margin-right: auto;
@@ -142,13 +142,16 @@ text-align: left;
 `
 
 export const Form = styled.form`
-padding: 0.5rem;
-width: 50%;
-gap: 0.8rem;
+width: 15em;
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-left: auto;
+margin-right: auto;
 
+> #login-button{
+  margin-top: 1rem;
+}
 `
 
 /*Users.js*/

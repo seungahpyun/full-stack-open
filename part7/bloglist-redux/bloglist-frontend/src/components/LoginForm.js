@@ -23,8 +23,8 @@ const LoginForm = () => {
   return(
     <Layout>
       <Container>
-        <div className="justify-content-md-center">
-          <h1 className="text-center">Bloglist</h1>
+        <div>
+          <h1>Bloglist</h1>
           <Form onSubmit={handleLogin}>
             <Input
               type='text'
