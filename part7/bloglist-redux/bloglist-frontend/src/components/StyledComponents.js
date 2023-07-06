@@ -12,6 +12,7 @@ flex-direction: column;
 align-items: center;
 `
 
+/* LoginForm.js*/
 export const StyledLoginContainer = styled.div`
 margin-top: 10rem;
 padding: 1rem;
@@ -48,6 +49,22 @@ export const StyledLoginFormItem = styled.div`
 padding: 0.5rem;
 `
 
+/* BlogList.js */
+export const StyledBlogContainer = styled.div`
+margin-top: 1rem;
+margin-bottom: 1rem;
+margin-left: auto;
+margin-right: auto;
+padding: 1rem;
+width: 100%;
+flex-direction: column;
+align-items: center;
+border: 1px solid #ced4da;
+border-radius: 0.25rem;
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+`
+
+
 export const StyledBlog = styled.div`
 margin-top: 1rem;
 margin-bottom: 1rem;
@@ -61,8 +78,21 @@ box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 text-align: left;
 `
 
+export const StyledBlogListGroup = styled.div`
+margin-top: 0.5rem;
+padding: 1rem;
+width: 100%;
+border: 2px solid #ced4da;
+border-radius: 0.25rem;
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+:hover {
+  background-color: #e9ecef;
+}
+`
+
 export const StyledButton = styled.button`
-  margin-left: 0.5rem;
+margin-left: 0.5rem;
+margin-right: 0.5rem;
 `
 
 export const StyledButtonGroup = styled.div`
