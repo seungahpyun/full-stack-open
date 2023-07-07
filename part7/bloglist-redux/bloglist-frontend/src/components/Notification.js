@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { Alert } from './StyledComponents'
+import { Alert, Container } from './StyledComponents'
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
@@ -10,9 +10,11 @@ const Notification = () => {
   }
 
   return (
-    <Alert>
-      {notification.message}
-    </Alert>
+    <Container>
+      <Alert>
+        {notification.message}
+      </Alert>
+    </Container>
   )
 }
 

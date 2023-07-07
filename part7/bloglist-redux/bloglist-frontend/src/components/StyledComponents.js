@@ -7,7 +7,7 @@ margin-bottom: 1rem;
 margin-left: auto;
 margin-right: auto;
 padding: 1rem;
-width: 40rem;
+width: 42rem;
 flex-direction: column;
 align-items: center;
 text-align: center;
@@ -244,7 +244,8 @@ border-radius: 0.25rem;
 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 text-align: center;
 margin-left: auto;
-margin-right: auto;`
+margin-right: auto;
+`
 
 
 
