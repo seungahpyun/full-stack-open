@@ -16,6 +16,11 @@ text-align: center;
 export const Button = styled.button`
 margin-left: 0.5rem;
 margin-right: 0.5rem;
+
+&:hover {
+  background-color: #ff4d00;
+  color: #fff;
+}
 `
 
 export const HeaderLink = styled(Link)`
@@ -100,7 +105,6 @@ margin-top: 0.5rem;
 padding: 1rem;
 
 > #each-blog {
-  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   padding: 1rem;
   width: 100%;
@@ -123,31 +127,26 @@ border: 1px solid #ced4da;
 border-radius: 0.25rem;
 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 text-align: left;
+margin-left: auto;
+margin-right: auto;
+
+> #added-by {
+  font-size: 0.8rem;
+  color: #6c757d;
+  text-align: right;
+}
 `
 
-export const StyledButtonGroup = styled.div`
-padding: 0.5rem;
-width: 100%;
-// display: flex;
-// justify-content: space-between;
-border: 1px solid #ced4da;
-border-radius: 0.25rem;
-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-flex-direction: column;
-`
-export const StyledBolgItem = styled.div`
-align-items: flex-end;
-`
 
 /*BlogComment.js*/
 export const StyledBlogComment = styled.div`
 padding: 1rem;
-// width: 100%;
-border: 1px solid #ced4da;
-border-radius: 0.25rem;
-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+// border: 1px solid #ced4da;
+// border-radius: 0.25rem;
+// box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 text-align: left;
 `
+
 
 export const Form = styled.form`
 width: 15em;
@@ -162,7 +161,19 @@ margin-right: auto;
 }
 `
 
-/*Users.js*/
+export const CommentForm = styled.form`
+width: 35em;
+display: flex;
+margin-left: auto;
+margin-right: auto;
+margin-top: 1rem;
+margin-bottom: 1rem;
+
+> #comment{
+  width: 100%;
+`
+
+
 export const Table = styled.table`
   margin-top: 1rem;
   margin-bottom: 1rem;

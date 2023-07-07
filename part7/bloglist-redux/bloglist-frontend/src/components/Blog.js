@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
-import BlogCommentForm from './BlogCommentForm'
 import BlogComment from './BlogComment'
-import { Container, StyledBlog, StyledButtonGroup, Button } from './StyledComponents'
+import { Container, StyledBlog, Button } from './StyledComponents'
 
 const Blog = () => {
   const dispatch = useDispatch()
@@ -40,28 +39,26 @@ const Blog = () => {
       <Container>
         <StyledBlog>
           <div>
-            Blog Title : {blog.title}
+            Title : {blog.title}
           </div>
           <div>
-            Blog Author : {blog.author}
+            Author : {blog.author}
           </div>
           <div>
-            Blog url : <a href={blog.url}>{blog.url}</a>
+            url : <a href={blog.url}>{blog.url}</a>
           </div>
           <div>
             Total likes : {blog.likes} likes
+            <Button onClick={handleLike} style = {{ fontSize:'0.8rem' }}>like</Button>
+          </div>
+          <hr />
+          <div id='added-by'>
+            Blog added by {blog.user?.username}
+            {blog.user?.username === user?.username && (
+              <Button onClick={handleDelete}>delete</Button>
+            )}
           </div>
         </StyledBlog>
-        <div>
-            Blog added by {blog.user?.username}
-        </div>
-        <StyledButtonGroup>
-          <BlogCommentForm blog={blog} />
-          <Button onClick={handleLike}>like</Button>
-          {blog.user?.username === user?.username && (
-            <Button onClick={handleDelete}>remove</Button>
-          )}
-        </StyledButtonGroup>
         <BlogComment blog={blog} />
       </Container>
     </div>

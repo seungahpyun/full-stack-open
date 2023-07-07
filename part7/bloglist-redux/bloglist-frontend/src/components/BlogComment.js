@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { createSelector } from 'reselect'
 import { StyledBlogComment } from './StyledComponents'
+import BlogCommentForm from './BlogCommentForm'
 
 
 const selectComments = createSelector(
@@ -14,18 +15,18 @@ const BlogComment = ({ blog }) => {
   const comments = useSelector(state => selectComments(state, blog))
 
   return (
-    <div>
-      <StyledBlogComment>
-        <h3>Added Comments</h3>
-        {comments.length === 0 ? (
-          <div>There is no comments yet.</div>
-        ) : (
-          comments.map(comment => (
-            <div key={comment._id}>{comment.content}</div>
-          ))
-        )}
-      </StyledBlogComment>
-    </div>
+    <StyledBlogComment>
+      <h3>Added Comments</h3>
+      <hr />
+      <BlogCommentForm blog={blog} />
+      {comments.length === 0 ? (
+        <div>There is no comments yet.</div>
+      ) : (
+        comments.map(comment => (
+          <div key={comment._id}>{comment.content}</div>
+        ))
+      )}
+    </StyledBlogComment>
   )
 }
 
