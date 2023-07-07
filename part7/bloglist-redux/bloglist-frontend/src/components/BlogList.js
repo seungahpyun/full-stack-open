@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 
-import { Container, StyledBlogListGroup,LinkItem } from './StyledComponents'
+import { Container, BlogListGroup,LinkItem } from './StyledComponents'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
@@ -10,13 +10,13 @@ const BlogList = () => {
   return (
     <div>
       <Container>
-        <StyledBlogListGroup>
+        <BlogListGroup>
           {[...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
-            <div key={blog.id}>
+            <div id = 'each-blog' key={blog.id}>
               <LinkItem to={`/blogs/${blog.id}`}>{blog.title}</LinkItem>
             </div>
           )}
-        </StyledBlogListGroup>
+        </BlogListGroup>
       </Container>
     </div>
   )

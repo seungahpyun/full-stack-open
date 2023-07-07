@@ -7,7 +7,7 @@ margin-bottom: 1rem;
 margin-left: auto;
 margin-right: auto;
 padding: 1rem;
-width: 80%;
+width: 40rem;
 flex-direction: column;
 align-items: center;
 text-align: center;
@@ -95,13 +95,21 @@ background-color: #f7f9fa;
 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 `
 
-export const StyledBlogListGroup = styled.div`
+export const BlogListGroup = styled.div`
 margin-top: 0.5rem;
 padding: 1rem;
-width: 100%;
-border: 2px solid #ced4da;
-border-radius: 0.25rem;
-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+> #each-blog {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  text-align: left;
+}
+
 
 :hover {
   background-color: #e9ecef;
