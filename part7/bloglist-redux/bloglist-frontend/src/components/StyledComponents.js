@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
-margin-top: 3rem;
+margin-top: 2rem;
 margin-bottom: 1rem;
 margin-left: auto;
 margin-right: auto;
@@ -11,6 +11,36 @@ width: 40rem;
 flex-direction: column;
 align-items: center;
 text-align: center;
+`
+
+export const UserContainer = styled.div`
+margin-top: 2rem;
+margin-bottom: 1rem;
+margin-left: auto;
+margin-right: auto;
+padding: 1rem;
+width: 40rem;
+flex-direction: column;
+align-items: center;
+text-align: center;
+
+> h3 {
+  margin-bottom: 2rem;
+}
+
+> ul > li {
+  list-style-type: none;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  padding: 0.5rem;
+  text-decoration: none;
+}
 `
 
 export const Button = styled.button`
@@ -32,57 +62,52 @@ font-size: 1.5rem;
 `
 
 export const Nav = styled.nav`
+display: flex;
+padding: 1rem;
+margin-left: auto;
+margin-right: auto;
+
+> div {
   display: flex;
-  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
 
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+
+  span {
+    cursor: pointer;
   }
 
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-
-    span {
-      cursor: pointer;
-      font-size: 1.5rem;
-    }
-
-    hr {
-      solid #f7f9fa;
-      margin: 0.5rem 0;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      top: 100%;
-      z-index: 1;
-      padding: 12px 12px;
-      border-radius: 0.25rem;
-
-      a {
-        color: #ff4d00;
-        text-decoration: none;
-        display: block;
-        align-items: center;
-      }
-    }
-
-    &:hover .dropdown-content {
-      display: block;
-    }
+  hr {
+    solid #f7f9fa;
+    margin: 0.5rem 0;
   }
+
+  .dropdown-content > button {
+    font-size: 0.8rem;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    top: 100%;
+    z-index: 1;
+    padding: 0.4rem;
+    border-radius: 0.25rem;
+  }
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+}
 `
 
 export const LinkItem = styled(Link)`
@@ -106,9 +131,9 @@ padding: 1rem;
 
 > #each-blog {
   margin-bottom: 0.5rem;
-  padding: 1rem;
+  padding: 0.4rem 0.4rem 0.4rem 1rem;
   width: 100%;
-  border: 1px solid #ced4da;
+  border: 1px solid #BFCCA8;
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   text-align: left;
@@ -137,8 +162,6 @@ margin-right: auto;
 }
 `
 
-
-/*BlogComment.js*/
 export const StyledBlogComment = styled.div`
 padding: 1rem;
 // border: 1px solid #ced4da;
@@ -146,7 +169,6 @@ padding: 1rem;
 // box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 text-align: left;
 `
-
 
 export const Form = styled.form`
 width: 15em;
@@ -173,7 +195,6 @@ margin-bottom: 1rem;
   width: 100%;
 `
 
-
 export const Table = styled.table`
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -181,25 +202,42 @@ export const Table = styled.table`
   margin-right: auto;
   padding: 1rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  width: 60%;
+  text-align: left;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: #f7f9fa;
+  color: #343a40;
+  font-size: 0.9rem;
 
-  :hover {
+  > thead > tr > th {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ced4da;
+  }
+
+  > tbody > tr > td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ced4da;
+  }
+  > tbody > tr
+  &:hover {
     background-color: #e9ecef;
   }
-  `
-
-export const Th = styled.th`
-  text-align: left;
-  padding: 0.5rem;
-  border-bottom: 1px solid #ced4da;
-  `
+`
 
 export const Alert = styled.div`
 margin-top: 1rem;
 padding: 1rem;
-width: 50%;
+width: 60%;
 border: 1px solid #ced4da;
 border-radius: 0.25rem;
-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);`
+box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+text-align: center;
+margin-left: auto;
+margin-right: auto;`
+
 
 
 export const Input = styled.input`

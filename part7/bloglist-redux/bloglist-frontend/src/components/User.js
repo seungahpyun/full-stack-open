@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
+import { UserContainer } from './StyledComponents'
 
 const User = () => {
   const { id } = useParams()
@@ -21,9 +22,8 @@ const User = () => {
   }
 
   return (
-    <div>
-      <h2>{name}</h2>
-      <h3>added blogs</h3>
+    <UserContainer>
+      <h3>Blog added by {name}</h3>
       <ul>
         {blogs.map(blog => (
           <li key={blog.id}>
@@ -31,7 +31,7 @@ const User = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </UserContainer>
   )
 }
 

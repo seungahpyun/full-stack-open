@@ -31,16 +31,15 @@ const App = () => {
           <Nav>
             <div>
               <HeaderLink to='/'>Bloglist</HeaderLink>
-              <div className="dropdown">
-                <span>Menu</span>
-                <div className="dropdown-content">
-                  <p>{user.username}</p>
-                  <hr />
-                  <LinkItem to="/">Blogs</LinkItem>
-                  <LinkItem to="/users">Users</LinkItem>
-                  <LinkItem to="/create">Create</LinkItem>
-                  <hr />
-                  <Button onClick={() => dispatch(logoutUser())}>Logout</Button>
+              <div>
+                <LinkItem to="/">Blogs</LinkItem>
+                <LinkItem to="/users">Users</LinkItem>
+                <LinkItem to="/create">Create</LinkItem>
+                <div className="dropdown">
+                  <span>{user.username}</span>
+                  <div className="dropdown-content">
+                    <Button onClick={() => dispatch(logoutUser())}>Logout</Button>
+                  </div>
                 </div>
               </div>
             </div>
