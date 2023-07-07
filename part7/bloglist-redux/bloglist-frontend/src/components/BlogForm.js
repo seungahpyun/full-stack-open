@@ -21,10 +21,15 @@ const BlogForm = () => {
     event.target.title.value = ''
     event.target.author.value = ''
     event.target.url.value = ''
-    const newBlog = await blogService.create({ title, author, url })
-    dispatch(addBlog(newBlog))
-    dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
-    navigate('/')
+
+    try {
+      const newBlog = await blogService.create({ title, author, url })
+      dispatch(addBlog(newBlog))
+      dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
+      navigate('/')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

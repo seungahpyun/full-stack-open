@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import BlogComment from './BlogComment'
@@ -8,6 +8,8 @@ import { Container, StyledBlog, Button } from './StyledComponents'
 
 const Blog = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const user = useSelector(state => state.login)
   const { id } = useParams()
   const blog = useSelector(state => state.blogs.find(b => b.id === id))
@@ -27,6 +29,7 @@ const Blog = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       dispatch(deleteBlog(blog))
       dispatch(showNotification(`you deleted ${blog.title}`, 3))
+      navigate('/')
     }
   }
 
@@ -44,7 +47,7 @@ const Blog = () => {
           <div>
             Author : {blog.author}
           </div>
-          <div>
+          <div id='blog-url'>
             url : <a href={blog.url}>{blog.url}</a>
           </div>
           <div>

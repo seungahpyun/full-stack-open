@@ -160,6 +160,14 @@ margin-right: auto;
   color: #6c757d;
   text-align: right;
 }
+
+> #blog-url {
+  font-size: clamp(0.8rem, 3vw, 1rem);
+
+  a {
+    word-break: break-all;
+  }
+}
 `
 
 export const StyledBlogComment = styled.div`
