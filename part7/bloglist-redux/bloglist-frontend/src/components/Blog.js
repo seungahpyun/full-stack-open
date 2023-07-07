@@ -22,7 +22,7 @@ const Blog = () => {
 
   const handleLike = async () => {
     dispatch(likeBlog(blog))
-    dispatch(showNotification(`you liked ${blog.title}`, 3))
+    dispatch(showNotification(`you liked ${blog.title}`,'success', 3))
   }
 
   const handleDelete = async () => {

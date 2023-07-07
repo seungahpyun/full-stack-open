@@ -238,7 +238,7 @@ export const Table = styled.table`
 export const Alert = styled.div`
 margin-top: 1rem;
 padding: 1rem;
-width: 60%;
+width: 100%;
 border: 1px solid #ced4da;
 border-radius: 0.25rem;
 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);

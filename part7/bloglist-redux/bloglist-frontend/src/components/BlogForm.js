@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 import { addBlog } from '../reducers/blogReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch ,useSelector } from 'react-redux'
 import { showNotification }  from '../reducers/notificationReducer'
 import { Container, Form, Button } from './StyledComponents'
 import { useNavigate } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const BlogForm = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const user = useSelector(state => state.login)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -22,14 +22,11 @@ const BlogForm = () => {
     event.target.author.value = ''
     event.target.url.value = ''
 
-    try {
-      const newBlog = await blogService.create({ title, author, url })
-      dispatch(addBlog(newBlog))
-      dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
-      navigate('/')
-    } catch (error) {
-      console.error(error)
-    }
+    const newBlog = await blogService.create({ title, author, url })
+    newBlog.user = { username: user.username }
+    dispatch(addBlog(newBlog))
+    dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`,'success', 5))
+    navigate('/')
   }
 
   return (

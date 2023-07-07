@@ -2,7 +2,6 @@ import React from 'react'
 import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from '../reducers/blogReducer'
-import Layout from './Layout'
 import { Container,Button, Form, Input } from './StyledComponents'
 
 const LoginForm = () => {
@@ -21,26 +20,24 @@ const LoginForm = () => {
   }
 
   return(
-    <Layout>
-      <Container>
-        <div>
-          <h1>Bloglist</h1>
-          <Form onSubmit={handleLogin}>
-            <Input
-              type='text'
-              id='username'
-              placeholder='username'
-            />
-            <Input
-              type='password'
-              id='password'
-              placeholder='password'
-            />
-            <Button type='submit' id='login-button'>login</Button>
-          </Form>
-        </div>
-      </Container>
-    </Layout>
+    <Container>
+      <div>
+        <h1>Bloglist</h1>
+        <Form onSubmit={handleLogin}>
+          <Input
+            type='text'
+            id='username'
+            placeholder='username'
+          />
+          <Input
+            type='password'
+            id='password'
+            placeholder='password'
+          />
+          <Button type='submit' id='login-button'>login</Button>
+        </Form>
+      </div>
+    </Container>
   )
 }
 

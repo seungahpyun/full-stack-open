@@ -14,7 +14,7 @@ const BlogCommentForm = ({ blog }) => {
 
     event.target.comment.value = ''
     dispatch(addComment(blog, comment))
-    dispatch(showNotification(`you commented ${comment}`, 3))
+    dispatch(showNotification(`you commented ${comment}`,'success', 3))
   }
 
   return (

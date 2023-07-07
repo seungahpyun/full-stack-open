@@ -11,7 +11,7 @@ const Notification = () => {
 
   return (
     <Alert>
-      {notification}
+      {notification.message}
     </Alert>
   )
 }
