@@ -1,11 +1,15 @@
 import React from 'react'
 import blogService from '../services/blogs'
 import { addBlog } from '../reducers/blogReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch ,useSelector } from 'react-redux'
 import { showNotification }  from '../reducers/notificationReducer'
+import { Container, Form, Button } from './StyledComponents'
+import { useNavigate } from 'react-router-dom'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const user = useSelector(state => state.login)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -17,39 +21,42 @@ const BlogForm = () => {
     event.target.title.value = ''
     event.target.author.value = ''
     event.target.url.value = ''
+
     const newBlog = await blogService.create({ title, author, url })
+    newBlog.user = { username: user.username }
     dispatch(addBlog(newBlog))
-    dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
+    dispatch(showNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`,'success', 5))
+    navigate('/')
   }
 
   return (
-    <div>
-      <h2>Create new</h2>
-      <form onSubmit={handleSubmit}>
+    <Container>
+      <Form onSubmit={handleSubmit}>
+        <h2>Create new</h2>
         <div>
-            title:
           <input
             type='text'
             id='title'
+            placeholder='title'
           />
         </div>
         <div>
-            author:
           <input
             type='text'
             id='author'
+            placeholder='author'
           />
         </div>
         <div>
-            url:
           <input
             type='text'
             id='url'
+            placeholder='url'
           />
         </div>
-        <button id='create-blog-button' type="submit">create</button>
-      </form>
-    </div>
+        <Button id='create-blog-button' type="submit">create</Button>
+      </Form>
+    </Container>
   )
 }
 

@@ -1,19 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Source+Code+Pro:wght@600&display=swap');
 
-.notification {
-  background-color: lightgray;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
 
-#notification-success {
-  color: green;
-  border-color: green;
-}
-
-#notification-error {
-  color: red;
-  border-color: red;
+* {
+  font-family: 'Source Code Pro', monospace;
+  background-color: #F9F9F9;
+  color:#ff4d00;
 }

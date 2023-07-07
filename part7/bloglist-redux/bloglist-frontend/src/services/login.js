@@ -1,14 +1,16 @@
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-
 const login = async credentials => {
-  const response = await axios.post(baseUrl, credentials)
-  if (response.status === 200) {
+  try {
+    const response = await axios.post(baseUrl, credentials)
     return response.data
-  } else {
-    throw new Error(response.statusText)
+  } catch (error) {
+    console.error(error)
+    throw error
   }
 }
+
+
 
 export default { login }

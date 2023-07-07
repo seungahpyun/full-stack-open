@@ -18,21 +18,23 @@ export const loginUser = (username, password) => {
   return async dispatch => {
     try{
       const user = await loginService.login({ username, password })
+
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       dispatch(setLogin(user))
-      dispatch(showNotification(`Welcome ${user.name}`, 'success', 5))
+      dispatch(showNotification(`Welcome ${user.username}`, 'success', 3))
       blogService.setToken(user.token)
     }
     catch (exception) {
       console.error('Login error:', exception)
+      let errorMessage = 'An unknown error occurred during login'
       if (exception.response && exception.response.data) {
-        dispatch(showNotification(exception.response.data.error, 'error', 5))
-      } else {
-        dispatch(showNotification('Error occurred during login', 'error', 5))
+        errorMessage = exception.response.data.error
       }
+      dispatch(showNotification(errorMessage, 'error', 3))
     }
   }
 }
+
 
 export const logoutUser = () => {
   return async dispatch => {

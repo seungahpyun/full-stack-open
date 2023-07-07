@@ -1,9 +1,8 @@
 import React from 'react'
-import Notification from './Notification'
 import { loginUser } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from '../reducers/blogReducer'
-
+import { Container,Button, Form, Input } from './StyledComponents'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -12,31 +11,33 @@ const LoginForm = () => {
     event.preventDefault()
     const username = event.target.username.value
     const password = event.target.password.value
+
     dispatch(loginUser(username, password))
-    dispatch(initializeBlogs)
+    dispatch(initializeBlogs())
+
+    event.target.username.value = ''
+    event.target.password.value = ''
   }
 
   return(
-    <div>
-      <Notification />
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+    <Container>
+      <div>
+        <h1>Bloglist</h1>
+        <Form onSubmit={handleLogin}>
+          <Input
             type='text'
             id='username'
+            placeholder='username'
           />
-        </div>
-        <div>
-          password
-          <input
+          <Input
             type='password'
             id='password'
+            placeholder='password'
           />
-        </div>
-        <button type='submit' id='login-button'>login</button>
-      </form>
-    </div>
+          <Button type='submit' id='login-button'>login</Button>
+        </Form>
+      </div>
+    </Container>
   )
 }
 

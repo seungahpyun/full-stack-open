@@ -1,17 +1,23 @@
+import React from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+
+
+import { Container, BlogListGroup,LinkItem } from './StyledComponents'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
 
   return (
     <div>
-      <h2>Blogs</h2>
-      { [...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
-        <div key={blog.id}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </div>
-      )}
+      <Container>
+        <BlogListGroup>
+          {[...blogs].sort((a, b) => b.likes - a.likes).map(blog =>
+            <div id = 'each-blog' key={blog.id}>
+              <LinkItem to={`/blogs/${blog.id}`}>{blog.title}</LinkItem>
+            </div>
+          )}
+        </BlogListGroup>
+      </Container>
     </div>
   )
 }
