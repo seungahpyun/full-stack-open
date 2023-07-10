@@ -247,8 +247,6 @@ margin-left: auto;
 margin-right: auto;
 `
 
-
-
 export const Input = styled.input`
   width: 60%;
   margin-top: 1rem;
