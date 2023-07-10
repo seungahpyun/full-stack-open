@@ -8,11 +8,21 @@ const Books = (props) => {
     return <div>loading...</div>
   }
 
+  if (result.error) {
+    console.log(result.error)
+    return <div>Error!</div>
+  }
+
   if (!props.show) {
     return null
   }
 
+  if (!result.data) {
+    return <div>No data!</div>
+  }
+
   const books = result.data.allBooks
+
 
   return (
     <div>
