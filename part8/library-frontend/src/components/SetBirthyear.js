@@ -6,7 +6,6 @@ import { ALL_AUTHORS,EDIT_AUTHOR } from "../queries"
 const SetBirthyear = ({ names, setError }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
-
   const [editAuthor,result] = useMutation(EDIT_AUTHOR,{
     refetchQueries: [ { query: ALL_AUTHORS } ]
   })
@@ -19,12 +18,6 @@ const SetBirthyear = ({ names, setError }) => {
     setName('')
     setBorn('')
   }
-
-  // useEffect(() => {
-  //   if (result.data && result.data.editAuthor === null) {
-  //     setError('person not found')
-  //   }
-  // }, [result.data]) // eslint-disable-line
 
   if (result.loading) {
     return <div>loading...</div>
