@@ -97,6 +97,7 @@ const resolvers = {
   },
   Mutation: {
     addBook: async(root, args,context) => {
+      console.log('addBook context', context )
       const currentUser = context.currentUser
 
       if (!currentUser) {
@@ -193,9 +194,13 @@ const server = new ApolloServer({
   cors: {
     origin: '*',
     credentials: true
-  },
+  }
+})
+
+startStandaloneServer(server, {
+  listen: { port: 4000 },
   context: async({ req }) => {
-    console.log(req)  // Log the entire request
+    console.log("Request" + req)  // Log the entire request
     const auth = req ? req.headers.authorization : null
     console.log(auth)  // Log the authorization header
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
@@ -210,11 +215,6 @@ const server = new ApolloServer({
       }
     }
   }
-
-})
-
-startStandaloneServer(server, {
-  listen: { port: 4000 },
 }).then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })

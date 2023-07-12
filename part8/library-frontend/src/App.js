@@ -8,21 +8,12 @@ import { setContext } from '@apollo/client/link/context'
 
 const App = () => {
   const [page, setPage] = useState('authors')
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('library-user-token'))
   const client = useApolloClient()
 
   const login = (newToken) => {
     setToken(newToken)
     setPage('books')
-
-    client.setLink(setContext((_, { headers }) => {
-      return {
-        headers: {
-          ...headers,
-          authorization: newToken ? `Bearer ${newToken}` : "",
-        }
-      }
-    }))
   }
 
   const logout = () => {

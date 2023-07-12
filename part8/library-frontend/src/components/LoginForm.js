@@ -18,7 +18,7 @@ const LoginForm = ({ show, onLogin ,setToken}) => {
       setToken(token)
       localStorage.setItem('library-user-token', token)
       onLogin(token)
-      console.log('Token:', token)
+      console.log('Login Form Token:', token)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.data])
