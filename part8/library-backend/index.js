@@ -98,10 +98,13 @@ const resolvers = {
   Mutation: {
     addBook: async(root, args,context) => {
       const currentUser = context.currentUser
-      console.log(currentUser)
 
       if (!currentUser) {
-        throw new GraphQLError("not authenticated")
+        throw new GraphQLError('not authenticated', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+          }
+        })
       }
 
       let author = await Author.findOne({name: args.author})
@@ -187,19 +190,27 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: {
+    origin: '*',
+    credentials: true
+  },
   context: async({ req }) => {
-    console.log(req)
+    console.log(req)  // Log the entire request
     const auth = req ? req.headers.authorization : null
-    console.log(req.headers)
-    console.log(auth)
+    console.log(auth)  // Log the authorization header
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
-      const decodedToken = jwt.verify(
-        auth.substring(7), process.env.JWT_SECRET
-      )
-      const currentUser = await User.findById(decodedToken.id)
-      return { currentUser }
+      try {
+        const decodedToken = jwt.verify(
+          auth.substring(7), process.env.JWT_SECRET
+        )
+        const currentUser = await User.findById(decodedToken.id)
+        return { currentUser }
+      } catch (error) {
+        console.error('JWT verification failed:', error)
+      }
     }
   }
+
 })
 
 startStandaloneServer(server, {

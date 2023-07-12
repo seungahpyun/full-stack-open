@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
 
-
-
-
 const LoginForm = ({ show, onLogin ,setToken}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

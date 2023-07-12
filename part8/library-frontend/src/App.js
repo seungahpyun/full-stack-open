@@ -4,7 +4,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-
+import { setContext } from '@apollo/client/link/context'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -14,6 +14,15 @@ const App = () => {
   const login = (newToken) => {
     setToken(newToken)
     setPage('books')
+
+    client.setLink(setContext((_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+          authorization: newToken ? `Bearer ${newToken}` : "",
+        }
+      }
+    }))
   }
 
   const logout = () => {
