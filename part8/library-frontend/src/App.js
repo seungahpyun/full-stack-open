@@ -13,14 +13,14 @@ const App = () => {
 
   const login = (newToken) => {
     setToken(newToken)
-    setPage('authors')
+    setPage('books')
   }
 
   const logout = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
-    setPage('authors')
+    setPage('books')
   }
 
   return (

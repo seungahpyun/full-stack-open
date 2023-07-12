@@ -19,7 +19,6 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log('error connection to MongoDB:', error.message)
   })
 
-
 const typeDefs = `
   type Author {
     name: String!
@@ -87,6 +86,9 @@ const resolvers = {
       return Book.find(filter)
     },
     allAuthors: async() => Author.find({}),
+    me: async (root, args, context) => {
+      return context.currentUser
+    }
   },
   Author : {
     bookCount: async(root) => {
@@ -96,6 +98,8 @@ const resolvers = {
   Mutation: {
     addBook: async(root, args,context) => {
       const currentUser = context.currentUser
+      console.log(currentUser)
+
       if (!currentUser) {
         throw new GraphQLError("not authenticated")
       }
@@ -110,13 +114,13 @@ const resolvers = {
         await book.save()
       }
       catch (error) {
-        throw new GraphQLError(error.message),{
+        throw new GraphQLError(error.message,{
           extension: {
             code : error.code,
             invalidArgs: args,
             error
           }
-        }
+        })
       }
       return book
     },
@@ -183,8 +187,11 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
+  context: async({ req }) => {
+    console.log(req)
     const auth = req ? req.headers.authorization : null
+    console.log(req.headers)
+    console.log(auth)
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       const decodedToken = jwt.verify(
         auth.substring(7), process.env.JWT_SECRET
@@ -194,7 +201,6 @@ const server = new ApolloServer({
     }
   }
 })
-
 
 startStandaloneServer(server, {
   listen: { port: 4000 },

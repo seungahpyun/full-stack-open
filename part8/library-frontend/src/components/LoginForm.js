@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
 
+
+
+
 const LoginForm = ({ show, onLogin ,setToken}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -15,9 +18,10 @@ const LoginForm = ({ show, onLogin ,setToken}) => {
   useEffect(() => {
     if (result.data) {
       const token = result.data.login.value
-      localStorage.setItem('library-user-token', token)
       setToken(token)
+      localStorage.setItem('library-user-token', token)
       onLogin(token)
+      console.log('Token:', token)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.data])
