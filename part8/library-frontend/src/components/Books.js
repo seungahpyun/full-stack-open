@@ -23,8 +23,6 @@ const Books = (props) => {
   const genres = books.map(b => b.genres).flat()
   const uniqueGenres = [...new Set(genres)]
   const filteredBooks = filter === 'all genres' ? books : books.filter(b => b.genres.includes(filter))
-  console.log(filteredBooks)
-  console.log(uniqueGenres)
 
   const filterBooks = (genre) => {
     setFilter(genre)

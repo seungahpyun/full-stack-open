@@ -170,7 +170,9 @@ const resolvers = {
       return author
     },
     createUser: async(root, args) => {
-      createUser = new User({ username: args.username })
+      const { username, favoriteGenre } = args
+      const createUser = new User({ username, favoriteGenre })
+
       try{
         await createUser.save()
       }
