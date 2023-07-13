@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS, ME } from '../queries'
 
-const Recommend = (props) => {
+const Recommend = ({ show }) => {
   const [books, setBooks] = useState(null)
   const [genre, setGenre] = useState(null)
   const result = useQuery(ALL_BOOKS)
   const userResult = useQuery(ME)
-
-  console.log(userResult)
 
   useEffect(() => {
     if (result.data) {
@@ -22,7 +20,7 @@ const Recommend = (props) => {
     }
   }, [userResult])
 
-  if (!props.show) {
+  if (!show) {
     return null
   }
 
