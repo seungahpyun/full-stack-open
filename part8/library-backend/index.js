@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 const typeDefs = `
   type Author {
-    name: String!
+    name: String
     id: ID!
     born: Int
     bookCount: Int!
@@ -33,19 +33,19 @@ const typeDefs = `
     id: ID!
     genres: [String!]!
   }
-  type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genres: String): [Book!]!
-    allAuthors: [Author!]!
-    me: User
-  }
   type User {
     username: String!
     id: ID!
   }
   type Token {
     value: String!
+  }
+  type Query {
+    bookCount: Int!
+    authorCount: Int!
+    allBooks(author: String, genres: String): [Book!]!
+    allAuthors: [Author!]!
+    me: User
   }
   type Mutation {
     addBook(
@@ -95,9 +95,14 @@ const resolvers = {
       return Book.find({author: root.id}).countDocuments()
     }
   },
+  Book: {
+    author: async(root) => {
+      return Author.findById(root.author)
+    }
+  },
+
   Mutation: {
     addBook: async(root, args,context) => {
-      console.log('addBook context', context )
       const currentUser = context.currentUser
 
       if (!currentUser) {
@@ -108,16 +113,12 @@ const resolvers = {
         })
       }
 
-      let author = await Author.findOne({name: args.author})
+      let author = await Author.findOne({ name: args.author })
       if (!author) {
         author = new Author({ name: args.author })
+      } try {
         await author.save()
-      }
-      const book = new Book({ ...args, author: author._id })
-      try {
-        await book.save()
-      }
-      catch (error) {
+      } catch (error) {
         throw new GraphQLError(error.message,{
           extension: {
             code : error.code,
@@ -126,6 +127,19 @@ const resolvers = {
           }
         })
       }
+      const book = new Book({ ...args, author: author._id})
+      try {
+        await book.save()
+      } catch (error) {
+        throw new GraphQLError(error.message,{
+          extension: {
+            code : error.code,
+            invalidArgs: args,
+            error
+          }
+        })
+      }
+
       return book
     },
     editAuthor: async(root, args,context) => {

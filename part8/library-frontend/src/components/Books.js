@@ -76,7 +76,7 @@ const Books = (props) => {
   }
 
   if (result.error) {
-    console.log(result.error)
+    console.error(result.error)
     return <div>Error!</div>
   }
 

@@ -29,7 +29,7 @@ export const CREATE_BOOK = gql`
       genres
       published
       title
-      author{
+      author {
         name
       }
     }

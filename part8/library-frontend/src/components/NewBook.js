@@ -19,7 +19,7 @@ const NewBook = ({ show }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    createBook({ variables: { title, author, published, genres } })
+    createBook({ variables: { title, author , published, genres } })
 
     console.log('add book...')
     setTitle('')
