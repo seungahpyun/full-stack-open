@@ -12,9 +12,11 @@ const jwt = require('jsonwebtoken')
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 
+const { WebSocketServer } = require('ws')
+const { useServer } = require('graphql-ws/lib/use/ws')
+
 const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
-const User = require('./models/user')
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
@@ -24,14 +26,34 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log('error connection to MongoDB:', error.message)
   })
 
+mongoose.set('debug', true)
 
   const start = async () => {
     const app = express()
     const httpServer = http.createServer(app)
 
+    const wsServer = new WebSocketServer({
+      server: httpServer,
+      path: '/',
+    })
+
+    const schema = makeExecutableSchema({ typeDefs, resolvers })
+    const serverCleanup = useServer({ schema }, wsServer)
+
     const server = new ApolloServer({
-      schema: makeExecutableSchema({ typeDefs, resolvers }),
-      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+      schema,
+      plugins: [
+        ApolloServerPluginDrainHttpServer({ httpServer }),
+        {
+          async serverWillStart() {
+            return {
+              async drainServer() {
+                await serverCleanup.dispose()
+              },
+            };
+          },
+        },
+      ],
     })
 
     await server.start()
@@ -45,9 +67,7 @@ mongoose.connect(process.env.MONGODB_URI)
           const auth = req ? req.headers.authorization : null
           if (auth && auth.startsWith('Bearer ')) {
             const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET)
-            const currentUser = await User.findById(decodedToken.id).populate(
-              'friends'
-            )
+            const currentUser = await User.findById(decodedToken.id)
             return { currentUser }
           }
         },

@@ -9,6 +9,7 @@ const NewBook = ({ show }) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
   const [error, setError] = useState(null)
+
   const [createBook] = useMutation(CREATE_BOOK, {
     onError: (error) => {
       setError(error.graphQLErrors[0].message)
