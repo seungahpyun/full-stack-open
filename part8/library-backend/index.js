@@ -191,18 +191,12 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: {
-    origin: '*',
-    credentials: true
-  }
 })
 
 startStandaloneServer(server, {
   listen: { port: 4000 },
   context: async({ req }) => {
-    console.log("Request" + req)  // Log the entire request
     const auth = req ? req.headers.authorization : null
-    console.log(auth)  // Log the authorization header
     if (auth && auth.toLowerCase().startsWith('bearer ')) {
       try {
         const decodedToken = jwt.verify(

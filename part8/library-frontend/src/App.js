@@ -4,11 +4,10 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { setContext } from '@apollo/client/link/context'
 
 const App = () => {
   const [page, setPage] = useState('authors')
-  const [token, setToken] = useState(localStorage.getItem('library-user-token'))
+  const [token, setToken] = useState(null)
   const client = useApolloClient()
 
   const login = (newToken) => {

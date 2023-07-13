@@ -10,10 +10,6 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('library-user-token')
-  console.log('Apollo Request Token:', token);
-  console.log('Headers before setting:', headers)
-  // Create a headers object if it is undefined
-  headers = headers || {}
   return {
     headers: {
       ...headers,
