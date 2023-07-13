@@ -16,6 +16,7 @@ export const ALL_BOOKS = gql`
     allBooks(author: $author, genres: $genres) {
       title
       published
+      genres
       author {
         name
       }
