@@ -4,7 +4,6 @@ import SetBirthyear from './SetBirthyear'
 
 const Authors = ({show}) => {
   const result = useQuery(ALL_AUTHORS)
-  console.log('result', result)
 
   if (result.loading) {
     return <div>loading...</div>

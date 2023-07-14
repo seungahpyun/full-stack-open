@@ -12,7 +12,7 @@ const NewBook = ({ show }) => {
 
   const [createBook] = useMutation(CREATE_BOOK, {
     onError: (error) => {
-      setError(error.graphQLErrors[0].message)
+      setError(error.graphQLErrors[0])
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: ALL_BOOKS })

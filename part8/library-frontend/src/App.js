@@ -16,7 +16,7 @@ const App = () => {
 
   const updateCacheWith = (addedBook) => {
     const includedIn = (set, object) =>
-      set.map((p) => p.id).includes(object.id)
+      set && set.map((p) => p.id).includes(object.id)
 
     const dataInStore = client.readQuery({ query: ALL_BOOKS })
     if (!includedIn(dataInStore.allBooks, addedBook)) {
@@ -28,9 +28,15 @@ const App = () => {
   }
 
   useSubscription(BOOK_ADDED, {
-    onData: ({ bookAdded }) => {
-      window.alert(`New book added: ${bookAdded.title}`)
-      updateCacheWith(bookAdded)
+    onData: ({ data }) => {
+      const addedBook = data.bookAdded
+      try {
+        updateCacheWith(addedBook)
+        window.alert(`New book added: ${addedBook.title}`)
+      }
+      catch (error) {
+        console.log(error)
+      }
     }
   })
 
