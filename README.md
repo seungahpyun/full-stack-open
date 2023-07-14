@@ -47,6 +47,14 @@ This course provides an introduction to modern web development using JavaScript.
 - Database and user administration
 - Login and updating the cache
 - Fragments and subscriptions
+## [Part 9 - TypeScript](https://fullstackopen.com/en/part9)
+- Background and introduction
+- First steps with TypeScript
+- Typing an Express app
+- React with types
+- Grande finale: Patientor
+
+
 
 
 
