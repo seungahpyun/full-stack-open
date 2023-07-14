@@ -23,7 +23,7 @@ const resolvers = {
       }
       return Book.find(filter)
     },
-    allAuthors: async() => Author.find({}),
+    allAuthors: async() => Author.find({}).populate('books'),
     me: async (root, args, context) => {
       return context.currentUser
     }
@@ -77,7 +77,7 @@ const resolvers = {
           }
         })
       }
-      pubsub.publish('BOOK_ADDED', { bookAdded: newBook })
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
       return book
     },
     editAuthor: async(root, args,context) => {
@@ -141,7 +141,7 @@ const resolvers = {
   },
   Subscription: {
     bookAdded: {
-      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+      subscribe: () => pubsub.asyncIterator('BOOK_ADDED')
     }
   }
 }

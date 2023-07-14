@@ -9,6 +9,7 @@ const cors = require('cors')
 const http = require('http')
 
 const jwt = require('jsonwebtoken')
+const User = require('./models/user')
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 

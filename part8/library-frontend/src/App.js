@@ -28,12 +28,12 @@ const App = () => {
   }
 
   useSubscription(BOOK_ADDED, {
-    onSubscriptionData: ({ subscriptionData }) => {
-      const addedBook = subscriptionData.data.bookAdded
-      alert(`${addedBook.title} added`)
-      updateCacheWith(addedBook)
+    onData: ({ bookAdded }) => {
+      window.alert(`New book added: ${bookAdded.title}`)
+      updateCacheWith(bookAdded)
     }
   })
+
 
   const login = (newToken) => {
     setToken(newToken)
@@ -63,7 +63,7 @@ const App = () => {
           : <button onClick={logout}>logout</button>}
       </div>
 
-      <Authors show={page === 'authors'} token={token}/>
+      <Authors show={page === 'authors'} />
       <Books show={page === 'books'}/>
       {!token
         ? <LoginForm show={page === 'login'} onLogin={login} setToken={setToken}/>
