@@ -4,7 +4,7 @@ const BOOK_DETAILS = gql`
   fragment BookDetails on Book {
     title
     published
-    author{
+    author {
       name
       id
       born
@@ -27,29 +27,26 @@ export const ALL_AUTHORS = gql`
 `
 
 export const ALL_BOOKS = gql`
-  query ($author: String, $genres: String) {
-    allBooks(author: $author, genres: $genres) {
-      title
-      published
-      genres
-      author {
-        name
-      }
+  query allBooks($author: String, $genre: String) {
+    allBooks(author: $author, genres: $genre) {
+      ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
 `
 
 export const CREATE_BOOK = gql`
-  mutation AddBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
-    addBook(title: $title, author: $author, published: $published, genres: $genres) {
-      genres
-      published
-      title
-      author {
-        name
-      }
+  mutation createBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!) {
+    addBook(
+      title: $title
+      author: $author
+      published: $published
+      genres: $genres
+    ) {
+      ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
 `
 
 export const EDIT_AUTHOR = gql`
@@ -63,7 +60,7 @@ export const EDIT_AUTHOR = gql`
 
 export const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
-    login(username: $username, password: $password)  {
+    login(username: $username, password: $password) {
       value
     }
   }
