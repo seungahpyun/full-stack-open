@@ -9,37 +9,49 @@ import Recommend from './components/Recommend'
 
 import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
+export const updateCache = (cache, query, addedBook) => {
+  const uniqByTitle = (a) => {
+    let seen = new Set()
+    return a.filter((item) => {
+      let k = item.title
+      return seen.has(k) ? false : seen.add(k)
+    })
+  }
+
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: uniqByTitle(allBooks.concat(addedBook)),
+    }
+  })
+}
+
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+  const [notification, setNotification] = useState(null)
   const client = useApolloClient()
 
-  const updateCacheWith = (addedBook) => {
-    const includedIn = (set, object) =>
-      set && set.map((p) => p.id).includes(object.id)
-
-    const dataInStore = client.readQuery({ query: ALL_BOOKS })
-    if (!includedIn(dataInStore.allBooks, addedBook)) {
-      client.writeQuery({
-        query: ALL_BOOKS,
-        data: { allBooks: dataInStore.allBooks.concat(addedBook) }
-      })
-    }
-  }
-
   useSubscription(BOOK_ADDED, {
-    onData: ({ data }) => {
-      const addedBook = data.bookAdded
-      try {
-        updateCacheWith(addedBook)
-        window.alert(`New book added: ${addedBook.title}`)
+    onData: ({ data, client }) => {
+      const addedBook = data.data.bookAdded
+      try {window.alert(`${addedBook.title} added`)
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook)}
+      catch {
+        console.log('error')
       }
-      catch (error) {
-        console.log(error)
+
+      client.cache.updateQuery({ query: ALL_BOOKS }, ({
+        allBooks }) => {
+          return {
+            allBooks: allBooks.concat(addedBook),
+          }
+        })
       }
-    }
   })
 
+  const handleNotificationClose = () => {
+    setNotification(null)
+  }
 
   const login = (newToken) => {
     setToken(newToken)
@@ -78,6 +90,13 @@ const App = () => {
             <Recommend show={page === 'recommendations'}/>
           </>
       }
+
+      {notification && (
+        <div className="notification">
+          <p>{notification}</p>
+          <button onClick={handleNotificationClose}>Close</button>
+        </div>
+      )}
     </div>
   )
 }
