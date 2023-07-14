@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useApolloClient, useSubscription } from '@apollo/client'
+import { useApolloClient, useSubscription} from '@apollo/client'
 
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -9,20 +9,18 @@ import Recommend from './components/Recommend'
 
 import { ALL_BOOKS, BOOK_ADDED } from './queries'
 
-export const updateCache = (cache, query, addedBook) => {
-  const uniqByTitle = (a) => {
-    let seen = new Set()
-    return a.filter((item) => {
-      let k = item.title
-      return seen.has(k) ? false : seen.add(k)
-    })
-  }
+export const updateCache = (addedBook) => {
+  return (cache, { data }) => {
+    const includedIn = (set, object) => set.map((p) => p.id).includes(object.id)
 
-  cache.updateQuery(query, ({ allBooks }) => {
-    return {
-      allBooks: uniqByTitle(allBooks.concat(addedBook)),
+    const dataInStore = cache.readQuery({ query: ALL_BOOKS })
+    if (dataInStore && !includedIn(dataInStore.allBooks, addedBook)) {
+      cache.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+      })
     }
-  })
+  }
 }
 
 const App = () => {
@@ -30,23 +28,21 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [notification, setNotification] = useState(null)
   const client = useApolloClient()
+  const [bookAddedAlreadyHandled, setBookAddedAlreadyHandled] = useState(false)
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data, client }) => {
       const addedBook = data.data.bookAdded
-      try {window.alert(`${addedBook.title} added`)
-      updateCache(client.cache, { query: ALL_BOOKS }, addedBook)}
-      catch {
-        console.log('error')
-      }
 
-      client.cache.updateQuery({ query: ALL_BOOKS }, ({
-        allBooks }) => {
-          return {
-            allBooks: allBooks.concat(addedBook),
-          }
-        })
+      if (!bookAddedAlreadyHandled) {
+        setBookAddedAlreadyHandled(true)
+
+        window.alert(`${addedBook.title} added`)
+        updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
+      } else {
+        setBookAddedAlreadyHandled(false)
       }
+    }
   })
 
   const handleNotificationClose = () => {

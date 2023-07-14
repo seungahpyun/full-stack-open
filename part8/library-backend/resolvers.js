@@ -2,10 +2,30 @@ const GraphQLError = require('graphql').GraphQLError
 const { PubSub } = require('graphql-subscriptions')
 const pubsub = new PubSub()
 const jwt = require('jsonwebtoken')
+const DataLoader = require('dataloader')
 
 const Author = require('./models/author')
 const Book = require('./models/book')
 const User = require('./models/user')
+
+const bookLoader = new DataLoader(async (authorIds) => {
+  const books = await Book.find({ author: { $in: authorIds } })
+  const map = {}
+  books.forEach(book => {
+    if (!map[book.author]) map[book.author] = []
+    map[book.author].push(book)
+  })
+  return authorIds.map(id => map[id] || [])
+})
+
+const authorLoader = new DataLoader(async (authorIds) => {
+  const authors = await Author.find({ _id: { $in: authorIds } })
+  const map = {}
+  authors.forEach(author => {
+    map[author._id.toString()] = author
+  })
+  return authorIds.map(id => map[id.toString()])
+})
 
 const resolvers = {
   Query: {
@@ -30,13 +50,14 @@ const resolvers = {
     }
   },
   Author : {
-    bookCount: async(root) => {
-      return Book.find({author: root.id}).countDocuments()
+    async bookCount(root) {
+      const books = await bookLoader.load(root.id);
+      return books.length
     }
   },
   Book: {
-    author: async(root) => {
-      return Author.findById(root.author)
+    async author(root) {
+      return await authorLoader.load(root.author)
     }
   },
 
