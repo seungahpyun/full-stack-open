@@ -1,20 +1,17 @@
 const calculateBmi= (cm:number, kg:number) => {
-  if (cm === 0 || kg === 0) throw new Error('Invalid parameters')
-
   const bmi = kg / Math.pow(cm / 100, 2)
-  if (bmi < 18.5){
-    return 'Underweight'
+  switch (true) {
+    case (bmi < 18.5):
+      return 'Underweight'
+    case (bmi >= 18.5 && bmi < 25):
+      return 'Normal (healthy weight)'
+    case (bmi >= 25 && bmi < 30):
+      return 'Overweight'
+    case (bmi >= 30):
+      return 'Obese'
+    default:
+      throw new Error('Invalid arguments')
   }
-  if (bmi > 18.5 && bmi < 25){
-    return 'Normal (healthy weight)'
-  }
-  if (bmi >= 25 && bmi < 30){
-    return 'Overweight'
-  }
-  if (bmi >= 30){
-    return 'Obese'
-  }
-
 }
 
 
