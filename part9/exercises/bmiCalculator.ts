@@ -5,16 +5,25 @@ const calculateBmi= (cm:number, kg:number) => {
   if (bmi < 18.5){
     return 'Underweight'
   }
-  if (bmi < 25){
+  if (bmi > 18.5 && bmi < 25){
     return 'Normal (healthy weight)'
   }
-  if (bmi < 30){
+  if (bmi >= 25 && bmi < 30){
     return 'Overweight'
   }
-  if (bmi > 30){
+  if (bmi >= 30){
     return 'Obese'
   }
+
 }
 
 
-console.log(calculateBmi(180, 74))
+try {
+  console.log(calculateBmi(180, 74))
+} catch (error: unknown) {
+  let errorMessage = 'Something went wrong, error: '
+  if (error instanceof Error) {
+    errorMessage += error.message
+  }
+  console.log(errorMessage)
+}
