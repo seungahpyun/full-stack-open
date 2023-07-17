@@ -11,7 +11,7 @@ interface ExerciseValues {
 const calculateExercises = (dailyHours: Array<number>, target: number): ExerciseValues => {
   const periodLength = dailyHours.length;
   const trainingDays = dailyHours.filter(h => h > 0).length;
-  const average = dailyHours.reduce((a, b) => a + b, 0) / periodLength;
+  const average = dailyHours.reduce((a, b) => a + b, 0) / periodLength ||0;
   const success = average >= target;
   const rating = success ? 3 : average >= target / 2 ? 2 : 1;
   const ratingDescription = success ? 'good job' : average >= target / 2 ? 'not too bad but could be better' : 'you need to work harder';
@@ -38,3 +38,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export { calculateExercises };
