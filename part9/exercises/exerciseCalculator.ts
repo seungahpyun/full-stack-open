@@ -28,7 +28,9 @@ const calculateExercises = (dailyHours: Array<number>, target: number): Exercise
 }
 
 try {
-  console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+  let target = Number(process.argv[2])
+  let dailyHours = process.argv.slice(3).map(h => Number(h))
+  console.log(calculateExercises(dailyHours, target))
 }
 catch (error: unknown) {
   let errorMessage = 'Something went wrong, error: '

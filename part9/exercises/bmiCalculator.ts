@@ -14,9 +14,10 @@ const calculateBmi= (cm:number, kg:number) => {
   }
 }
 
-
 try {
-  console.log(calculateBmi(180, 74))
+  let height = Number(process.argv[2])
+  let weight = Number(process.argv[3])
+  console.log(calculateBmi(height, weight))
 } catch (error: unknown) {
   let errorMessage = 'Something went wrong, error: '
   if (error instanceof Error) {
