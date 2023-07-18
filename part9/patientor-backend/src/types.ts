@@ -4,12 +4,7 @@ export interface Diagnose {
   latin?: string;
 };
 
-export type Gender = {
-  Female: 'female';
-  Male: 'male';
-  Other: 'other';
-};
-
+export type Gender = 'female' | 'male' | 'other';
 
 export interface Patient {
   id: string;
@@ -18,5 +13,6 @@ export interface Patient {
   ssn: string;
   gender: Gender;
   occupation: string;
-  entries: Entry[];
 };
+
+export type PublicPatient = Omit<Patient, 'ssn' | 'entries' >;
