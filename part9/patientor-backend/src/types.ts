@@ -4,7 +4,11 @@ export interface Diagnose {
   latin?: string;
 };
 
-export type Gender = 'female' | 'male' | 'other';
+export enum Gender {
+  Female = 'female',
+  Male = 'male',
+  Other = 'other'
+};
 
 export interface Patient {
   id: string;
