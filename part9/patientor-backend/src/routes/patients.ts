@@ -1,10 +1,10 @@
 import express from 'express';
-import allPatient from '../../data/patients';
+import patientService from '../services/patientService';
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-  res.send(allPatient);
+  res.send(patientService.getPublicPatients());
 });
 
 
