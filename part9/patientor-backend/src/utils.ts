@@ -9,8 +9,8 @@ const isDate = (date: string): boolean => {
   return Boolean(Date.parse(date));
 }
 
-const isGender = (param: any): param is Gender => {
-  return Object.values(Gender).includes(param);
+const isGender = (param: unknown): param is Gender => {
+  return typeof param === 'string' && Object.values(Gender).includes(param as Gender);
 }
 
 const parseGender = (gender: unknown): Gender => {
