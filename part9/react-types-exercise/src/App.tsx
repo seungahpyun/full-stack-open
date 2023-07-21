@@ -22,21 +22,25 @@ const App = () => {
     kind: "background"
   }
 
+  interface CoursePartSpecial extends CoursePartBase {
+    description: string;
+    requirements: string[];
+    kind: "special"
+  }
+
   interface HeaderProps {
     courseName: string;
   }
 
-  interface courseParts {
-    name: string;
-    exerciseCount: number;
-  }
-
   interface ContentProps {
-    courseParts: courseParts[];
+    courseParts: CoursePart[];
   }
 
+  type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground | CoursePartSpecial;
 
-  type CoursePart = CoursePartBasic | CoursePartGroup | CoursePartBackground;
+  const assertNever = (value: never): never => {
+    throw new Error(`Unhandled discriminated union member: ${JSON.stringify(value)}`);
+  };
 
   const courseName = "Half Stack application development";
   const courseParts: CoursePart[] = [
@@ -71,7 +75,51 @@ const App = () => {
       description: "a hard part",
       kind: "basic",
     },
+    {
+      name: "Backend development",
+      exerciseCount: 21,
+      description: "Typing the backend",
+      requirements: ["nodejs", "jest"],
+      kind: "special"
+    },
   ];
+
+  const Part = (props: { part: CoursePart }) => {
+    switch (props.part.kind) {
+      case "basic":
+        return (
+          <div>
+            <h3>{props.part.name} {props.part.exerciseCount}</h3>
+            <p><i>{props.part.description}</i></p>
+          </div>
+        );
+      case "group":
+        return (
+          <div>
+            <h3>{props.part.name} {props.part.exerciseCount}</h3>
+            <p>project exercises {props.part.groupProjectCount}</p>
+          </div>
+        );
+      case "background":
+        return (
+          <div>
+            <h3>{props.part.name} {props.part.exerciseCount}</h3>
+            <p><i>{props.part.description}</i></p>
+            <p>background material: {props.part.backgroundMaterial}</p>
+          </div>
+        );
+      case "special":
+        return (
+          <div>
+            <h3>{props.part.name} {props.part.exerciseCount}</h3>
+            <p><i>{props.part.description}</i></p>
+            <p>required skills: {props.part.requirements.join(", ")}</p>
+          </div>
+        );
+      default:
+        return assertNever(props.part);
+    }
+  };
 
   const Header = (props: HeaderProps) => {
     return <h1>{props.courseName}</h1>;
@@ -80,11 +128,7 @@ const App = () => {
   const Content = (props: ContentProps) => {
     return (
       <div>
-        {props.courseParts.map((course, index) => (
-          <p key={index}>
-            {course.name} {course.exerciseCount}
-          </p>
-        ))}
+        {props.courseParts.map(part => <Part key={part.name} part={part} />)}
       </div>
     );
   };
