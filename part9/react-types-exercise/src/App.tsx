@@ -15,6 +15,36 @@ const App = () => {
     }
   ];
 
+  interface courseParts {
+    name: string;
+    exerciseCount: number;
+  }
+
+  const Header = ({ courseName }: { courseName: string }) => {
+    return <h1>{courseName}</h1>;
+  };
+
+  const Content = ({ courseParts }: { courseParts: courseParts[] }) => {
+    return (
+      <div>
+        {courseParts.map((course, index) => (
+          <p key={index}>
+            {course.name} {course.exerciseCount}
+          </p>
+        ))}
+      </div>
+    );
+  };
+
+  const Total = ({ courseParts }: { courseParts: courseParts[] }) => {
+    return (
+      <p>
+        Number of exercises{" "}
+        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+      </p>
+    );
+  };
+
   return (
     <div>
       <Header courseName={courseName} />
