@@ -1,3 +1,5 @@
+import React from 'react';
+
 const App = () => {
   const courseName = "Half Stack application development";
   const courseParts = [
@@ -15,19 +17,27 @@ const App = () => {
     }
   ];
 
+  interface HeaderProps {
+    courseName: string;
+  }
+
   interface courseParts {
     name: string;
     exerciseCount: number;
   }
 
-  const Header = ({ courseName }: { courseName: string }) => {
-    return <h1>{courseName}</h1>;
+  interface ContentProps {
+    courseParts: courseParts[];
+  }
+
+  const Header = (props: HeaderProps) => {
+    return <h1>{props.courseName}</h1>;
   };
 
-  const Content = ({ courseParts }: { courseParts: courseParts[] }) => {
+  const Content = (props: ContentProps) => {
     return (
       <div>
-        {courseParts.map((course, index) => (
+        {props.courseParts.map((course, index) => (
           <p key={index}>
             {course.name} {course.exerciseCount}
           </p>
@@ -36,11 +46,11 @@ const App = () => {
     );
   };
 
-  const Total = ({ courseParts }: { courseParts: courseParts[] }) => {
+  const Total = (props: ContentProps) => {
     return (
       <p>
         Number of exercises{" "}
-        {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+        {props.courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
       </p>
     );
   };
