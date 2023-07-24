@@ -23,8 +23,6 @@ const OnePatientPage = ({ patients } : props) => {
   const { id } = useParams<{ id: string }>();
   const patient = patients ? patients.find(p => p.id === id) : null;
 
-
-
   return (
     <div>
       <Typography variant="h4">
@@ -36,6 +34,23 @@ const OnePatientPage = ({ patients } : props) => {
       <Typography variant="h6">
         occupation: {patient?.occupation}
       </Typography>
+      <Typography variant="h4">
+        entries:
+      </Typography>
+      {patient?.entries.map(e => (
+        <div key={e.id}>
+          <Typography variant="h6">
+            {e.date} {e.description}
+          </Typography>
+          <ul>
+            {e.diagnosisCodes?.map(d => (
+              <li key={d}>
+                {d}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };
