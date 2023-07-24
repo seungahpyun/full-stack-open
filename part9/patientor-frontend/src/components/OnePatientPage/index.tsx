@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { Patient, Gender } from '../../types';
+import { Patient, Gender, Diagnosis } from '../../types';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import Typography from '@mui/material/Typography';
+import diagnosisService from '../../services/diagnoses';
 
 interface props {
   patients : Patient[] | undefined | null;
+  diagnoses : Diagnosis[] | undefined | null;
 };
 
 const genderId = (gender : Gender | undefined) => {
@@ -19,9 +21,10 @@ const genderId = (gender : Gender | undefined) => {
   }
 };
 
-const OnePatientPage = ({ patients } : props) => {
+const OnePatientPage = ({ patients,diagnoses } : props) => {
   const { id } = useParams<{ id: string }>();
   const patient = patients ? patients.find(p => p.id === id) : null;
+  console.log(diagnosisService.getDiagnoses)
 
   return (
     <div>
@@ -45,7 +48,7 @@ const OnePatientPage = ({ patients } : props) => {
           <ul>
             {e.diagnosisCodes?.map(d => (
               <li key={d}>
-                {d}
+                {d} {diagnoses?.find(diag => diag.code === d)?.name}
               </li>
             ))}
           </ul>
