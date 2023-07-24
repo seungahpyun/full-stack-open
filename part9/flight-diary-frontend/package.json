@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.2",
     "axios": "^1.4.0",
     "uuid": "^9.0.0"
   }

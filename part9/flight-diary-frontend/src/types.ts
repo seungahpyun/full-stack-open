@@ -1,9 +1,9 @@
 export interface DiaryEntry {
-  id: number;
-  date: string;
-  weather: Weather;
-  visibility: Visibility;
-  comment?: string;
+  id: string
+  date: string
+  weather: Weather
+  visibility: Visibility
+  comment?: string
 }
 
 export enum Weather {
@@ -19,3 +19,7 @@ export enum Visibility {
   Poor = 'poor',
   Terrible = 'terrible'
 }
+
+export type NonSensitiveDiaryEntry = Omit<DiaryEntry, 'comment'>
+
+export type NewDiaryEntry = Omit<DiaryEntry, 'id'>

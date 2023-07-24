@@ -8,8 +8,17 @@ const getDiary = async () => {
   return data;
 }
 
+const addDiary = async (entry: DiaryEntry) => {
+  const { data } = await axios.post<DiaryEntry>(
+    `${baseUrl}/diaries`,
+    entry
+  );
+  return data;
+}
+
 const diariesService = {
-  getDiary
+  getDiary,
+  addDiary
 }
 
 export default diariesService;
