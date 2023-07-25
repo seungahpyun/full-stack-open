@@ -1,126 +1,192 @@
-import { useParams } from 'react-router-dom';
-import { Patient, Gender, Diagnosis, Entry, HealthCheckRating} from '../../types';
-import React from 'react';
-import FemaleIcon from '@mui/icons-material/Female';
-import MaleIcon from '@mui/icons-material/Male';
-import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import MedicalServiceIcon from '@mui/icons-material/MedicalServices';
-import WorkIcon from '@mui/icons-material/Work';
-import Box from '@mui/material/Box';
+import { useState } from "react";
+import {
+  Patient,
+  Gender,
+  Diagnosis,
+  Entry,
+  HealthCheckRating,
+  EntryWithoutId,
+} from "../../types";
+import FemaleIcon from "@mui/icons-material/Female";
+import MaleIcon from "@mui/icons-material/Male";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import WorkIcon from "@mui/icons-material/Work";
+import { Typography, Button } from "@mui/material";
+import Box from "@mui/material/Box";
+import patientService from "../../services/patients";
+import axios from "axios";
+import AddEntryModel from "../AddEntryModal";
 
+interface Props {
+  patient: Patient | null | undefined;
+  diagnoses: Diagnosis[];
+}
 
-interface props {
-  patients : Patient[] | undefined | null;
-  diagnoses : Diagnosis[] | undefined | null;
-};
-
-const genderId = (gender : Gender | undefined) => {
-  switch(gender){
+const genderId = (gender: Gender | undefined) => {
+  switch (gender) {
     case "female":
       return <FemaleIcon />;
     case "male":
       return <MaleIcon />;
     default:
-      return <></>;
+      return null;
+  }
+};
+
+const HealthRating = (health: HealthCheckRating) => {
+  switch (health) {
+    case 0:
+      return <FavoriteIcon sx={{ color: "green" }} />;
+    case 1:
+      return <FavoriteIcon sx={{ color: "yellow" }} />;
+    case 2:
+      return <FavoriteIcon sx={{ color: "blue" }} />;
+    case 3:
+      return <FavoriteIcon sx={{ color: "red" }} />;
   }
 };
 
 const assertNever = (value: never): never => {
   throw new Error(
-    `Unhandled discriminated union member: ${JSON.stringify(value)}`
+    `Unhandled discriminated union member: ${JSON.stringify(value)}`,
   );
-}
+};
 
-const HealthRating = ({health}: {health: HealthCheckRating}) => {
-  switch(health){
-    case 0:
-      return <FavoriteIcon style={{ color: "green" }} />;
-    case 1:
-      return <FavoriteIcon style={{ color: "yellow" }} />;
-    case 2:
-      return <FavoriteIcon style={{ color: "orange" }} />;
-    case 3:
-      return <FavoriteIcon style={{ color: "red" }} />;
-    default:
-      return <></>;
-  }
-}
-
-const EntryDetails : React.FC<{ entry: Entry }> = ({entry}) => {
-  switch(entry.type){
+const EntryDetails = ({ entry }: { entry: Entry }) => {
+  switch (entry.type) {
     case "HealthCheck":
-      return (
-        <Box sx= {{border: '2px solid black',  borderRadius: 4, padding: 2, margin: 1 }}>
-          <Typography variant="body1">
-            {entry.date}<MedicalServiceIcon />
-          </Typography>
-          <Typography variant="body2">
-            <i>{entry.description}</i>
-          </Typography>
-          <HealthRating health={entry.healthCheckRating} />
-          <Typography variant="body2">
-            dignoses by {entry.specialist}
-          </Typography>
-        </Box>
-      );
+      return <div>{HealthRating(entry.healthCheckRating)}</div>;
     case "Hospital":
       return (
-        <Box sx= {{border: '2px solid black',  borderRadius: 4, padding: 2, margin: 1 }}>
-          <Typography variant="body1">
-            {entry.date}<WorkIcon />
-          </Typography>
-          <Typography variant="body2">
-            <i>{entry.description}</i>
-          </Typography>
-          <Typography variant="body2">
-            dignoses by {entry.specialist}
-          </Typography>
-        </Box>
+        <div>
+          <p>Discharge date: {entry.discharge.date}</p>
+          <ul>
+            <li>
+              criteria: <i>{entry.discharge.criteria}</i>
+            </li>
+          </ul>
+        </div>
       );
     case "OccupationalHealthcare":
       return (
-        <Box sx= {{border: '2px solid black',  borderRadius: 4, padding: 2, margin: 1 }}>
-          <Typography variant="body1">
-            {entry.date}<WorkIcon />{entry.employerName}
-          </Typography>
-          <Typography variant="body2">
-            <i>{entry.description}</i>
-          </Typography>
-          <Typography variant="body2">
-            dignoses by {entry.specialist}
-          </Typography>
-        </Box>
+        <div>
+          {entry.sickLeave ? (
+            <p>
+              SICK LEAVE: {entry.sickLeave.startDate} -{" "}
+              {entry.sickLeave.endDate}
+            </p>
+          ) : null}
+        </div>
       );
     default:
       return assertNever(entry);
   }
 };
 
-const OnePatientPage = ({ patients } : props) => {
-  const { id } = useParams<{ id: string }>();
-  const patient = patients ? patients.find(p => p.id === id) : null;
+const OnePatientPage = ({ patient, diagnoses }: Props) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const submitNewEntry = async (values: EntryWithoutId) => {
+    try {
+      if (patient) {
+        const entry = await patientService.addEntry(patient.id, values);
+        patient = { ...patient, entries: patient.entries.concat(entry) };
+        setModalOpen(false);
+      }
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        if (e?.response?.data && typeof e?.response?.data === "string") {
+          const message = e.response.data.replace(
+            "Something went wrong. Error: ",
+            "",
+          );
+          console.error(message);
+          setError(message);
+        } else {
+          setError("Unrecognized axios error");
+        }
+      } else {
+        console.error("Unknown error", e);
+        setError("Unknown error");
+      }
+    }
+  };
 
   return (
     <div>
-      <Typography variant="h6">
-        <b>{patient?.name}{genderId(patient?.gender)}</b>
+      <Typography component="h5" variant="h5">
+        {patient?.name}
+        {genderId(patient?.gender)}
       </Typography>
-      <Typography variant="body1">
-        ssn: {patient?.ssn}
+      <p>ssn: {patient?.ssn}</p>
+      <p>occupation: {patient?.occupation}</p>
+      <AddEntryModel
+        onSubmit={submitNewEntry}
+        error={error}
+        onClose={closeModal}
+        modalOpen={modalOpen}
+      />
+      <Button variant="contained" onClick={() => openModal()}>
+        Add New Entry
+      </Button>
+      <Typography component="h6" variant="h6">
+        entries
       </Typography>
-      <Typography variant="body1">
-        occupation: {patient?.occupation}
-      </Typography>
-      <Typography variant="h6">
-        <b>entries:</b>
-      </Typography>
-      {patient?.entries.map(e => (
-        <EntryDetails key={e.id} entry={e} />
-      ))}
+      {patient?.entries.map((e) => {
+        return (
+          <div key={e.id}>
+            <Box
+              sx={{
+                border: "1px solid grey",
+                borderRadius: 4,
+                padding: 2,
+                margin: 1,
+              }}
+            >
+              <p>{e.date}</p>
+              {e.type === "OccupationalHealthcare" ? (
+                e.employerName ? (
+                  <p>
+                    <WorkIcon /> {e.employerName}
+                  </p>
+                ) : (
+                  <WorkIcon />
+                )
+              ) : (
+                <MedicalServicesIcon />
+              )}
+              <p>
+                <i>{e.description}</i>
+              </p>
+              <ul>
+                {e.diagnosisCodes?.map((d) => {
+                  const diagnosis = diagnoses.find(
+                    (diagnose) => diagnose.code === d,
+                  )?.name;
+                  return (
+                    <li key={d}>
+                      {d} {diagnosis ? diagnosis : null}
+                    </li>
+                  );
+                })}
+              </ul>
+              <EntryDetails entry={e} />
+              <p>diagnose by {e.specialist}</p>
+            </Box>
+          </div>
+        );
+      })}
     </div>
   );
 };
-
 
 export default OnePatientPage;
